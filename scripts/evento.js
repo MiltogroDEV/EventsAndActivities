@@ -149,21 +149,21 @@ if (pageCriarEventos){
                     setTimeout(() => {
                         window.location.href = "/pages/adm/eventosAdm.html";
                     }, 2000);
-                } else {
-                    showMessage("error", "Erro ao criar evento!");
+                } else if (response.error) {
+                    showMessage("error", `${response.error}`);
 
-                    eventoNome.value = "";
-                    eventoDesc.value = "";
-                    eventoInst.value = "";
-                    eventoRua.value = "";
-                    eventoBairro.value = "";
-                    eventoNumero.value = "";
-                    eventoCidade.value = "";
-                    eventoEstado.value = "";
-                    eventoDataInicio.value = "";
-                    eventoHoraInicio.value = "";
-                    eventoDataFim.value = "";
-                    eventoHoraFim.value = "";
+                    // eventoNome.value = "";
+                    // eventoDesc.value = "";
+                    // eventoInst.value = "";
+                    // eventoRua.value = "";
+                    // eventoBairro.value = "";
+                    // eventoNumero.value = "";
+                    // eventoCidade.value = "";
+                    // eventoEstado.value = "";
+                    // eventoDataInicio.value = "";
+                    // eventoHoraInicio.value = "";
+                    // eventoDataFim.value = "";
+                    // eventoHoraFim.value = "";
                 }
             } catch (e) {
                 console.log(e);
@@ -180,7 +180,7 @@ if (pageCriarEventos){
 
 const pageSacc = document.getElementById("ponteiroCursoUnico");
 if (pageSacc){
-    
+
     const modal = new bootstrap.Modal(document.getElementById("modalBody"));
 
     if (modal){
@@ -276,43 +276,3 @@ if (pageSacc){
     
     }
 }
-
-// -----------------------------------------
-
-async function listarEventos() {
-    try {
-        const eventos = await apiCall('/eventos', 'GET');
-
-        const container = document.getElementById('adicionarEventos');
-
-        // container.innerHTML = '';
-
-        eventos.forEach(evento => {
-            const eventoDiv = document.createElement('div');
-            eventoDiv.classList.add('col-lg-4', 'col-md-8', 'col-sm-10');
-
-            eventoDiv.innerHTML = `
-                <div class="single-blog blog-style-one">
-                    <div class="blog-image">
-                        <a href="/pages/evento/${evento.id}.html">
-                            <img src="${evento.banner}" class="imgCursos" alt="Banner do Evento"/>
-                        </a>
-                    </div>
-                    <div class="blog-content">
-                        <h5 class="blog-title">
-                            <a href="/pages/evento/${evento.id}.html">${evento.titulo}</a>
-                        </h5>
-                        <p class="text">${evento.descricao}</p>
-                    </div>
-                </div>
-            `;
-
-            container.appendChild(eventoDiv);
-        });
-    } catch (error) {
-        console.error('Erro ao listar eventos:', error);
-    }
-}
-
-// document.addEventListener('DOMContentLoaded', listarEventos);
-
