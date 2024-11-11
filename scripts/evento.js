@@ -6,13 +6,16 @@ let thumbnailBase64 = '';
 
 const btnCriarEvento1 = document.getElementById("btnCriarEvento1");
 
+
+
 if (btnCriarEvento1) {
     btnCriarEvento1.addEventListener('click', () => {
         window.location.href = "/pages/criarEventos.html";
     });
 }
 
-if (window.location.href == "/pages/criarEventos.html"){
+const pageCriarEventos = document.getElementById("criarEventosUnico");
+if (pageCriarEventos){
     let bannerCropper, thumbnailCropper;
     const bannerInput = document.getElementById('bannerUpload');
     const thumbnailInput = document.getElementById('thumbnailUpload');
@@ -175,99 +178,103 @@ if (window.location.href == "/pages/criarEventos.html"){
 
 // ------------------- MODAL EDITAR EVENTO
 
-const modal = new bootstrap.Modal(document.getElementById("modalBody"));
-
-if (modal){
-    const admBtnEditarEvento = document.getElementById("admBtnEditarEvento");
-    const btnFecharModal = document.getElementById("btnFecharModal");
+const pageSacc = document.getElementById("ponteiroCursoUnico");
+if (pageSacc){
     
-    admBtnEditarEvento.addEventListener("click", () => {
-        modal.show();
-    });
-    
-    btnFecharModal.addEventListener("click", () => {
-        modal.hide();
-    });
-    
-    const bannerUpload = document.getElementById("bannerEdit");
-    const bannerImage = document.getElementById("bannerImage");
-    const cropBannerBtn = document.getElementById("cropBannerBtn");
+    const modal = new bootstrap.Modal(document.getElementById("modalBody"));
 
-    const thumbnailUpload = document.getElementById("thumbnailEdit");
-    const thumbnailImage = document.getElementById("thumbnailImage");
-    const cropThumbnailBtn = document.getElementById("cropThumbnailBtn");
-
-    let cropper; 
-
-    bannerUpload.addEventListener("change", (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                bannerImage.src = reader.result;
-                bannerImage.style.display = "block";
-                cropBannerBtn.style.display = "inline";
-                initializeCropper(bannerImage, 900, 150);
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-
-    thumbnailUpload.addEventListener("change", (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                thumbnailImage.src = reader.result;
-                thumbnailImage.style.display = "block";
-                cropThumbnailBtn.style.display = "inline";
-                initializeCropper(thumbnailImage, 800, 450);
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-
-    function initializeCropper(imageElement, width, height) {
-        if (cropper) {
-            cropper.destroy();
-        }
-        cropper = new Cropper(imageElement, {
-            aspectRatio: width / height,
-            viewMode: 1,
+    if (modal){
+        const admBtnEditarEvento = document.getElementById("admBtnEditarEvento");
+        const btnFecharModal = document.getElementById("btnFecharModal");
+        
+        admBtnEditarEvento.addEventListener("click", () => {
+            modal.show();
         });
-    }
-
-    cropBannerBtn.addEventListener("click", () => {
-        const croppedCanvas = cropper.getCroppedCanvas();
-        bannerImage.src = croppedCanvas.toDataURL("image/png");
-        finalizeCrop();
-    });
-
-    cropThumbnailBtn.addEventListener("click", () => {
-        const croppedCanvas = cropper.getCroppedCanvas();
-        thumbnailImage.src = croppedCanvas.toDataURL("image/png");
-        finalizeCrop();
-    });
-
-    function finalizeCrop() {
-        if (cropper) {
-            cropper.destroy();
+        
+        btnFecharModal.addEventListener("click", () => {
+            modal.hide();
+        });
+        
+        const bannerUpload = document.getElementById("bannerEdit");
+        const bannerImage = document.getElementById("bannerImage");
+        const cropBannerBtn = document.getElementById("cropBannerBtn");
+    
+        const thumbnailUpload = document.getElementById("thumbnailEdit");
+        const thumbnailImage = document.getElementById("thumbnailImage");
+        const cropThumbnailBtn = document.getElementById("cropThumbnailBtn");
+    
+        let cropper; 
+    
+        bannerUpload.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    bannerImage.src = reader.result;
+                    bannerImage.style.display = "block";
+                    cropBannerBtn.style.display = "inline";
+                    initializeCropper(bannerImage, 900, 150);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    
+        thumbnailUpload.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    thumbnailImage.src = reader.result;
+                    thumbnailImage.style.display = "block";
+                    cropThumbnailBtn.style.display = "inline";
+                    initializeCropper(thumbnailImage, 800, 450);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    
+        function initializeCropper(imageElement, width, height) {
+            if (cropper) {
+                cropper.destroy();
+            }
+            cropper = new Cropper(imageElement, {
+                aspectRatio: width / height,
+                viewMode: 1,
+            });
         }
-        cropBannerBtn.style.display = "none";
-        cropThumbnailBtn.style.display = "none";
+    
+        cropBannerBtn.addEventListener("click", () => {
+            const croppedCanvas = cropper.getCroppedCanvas();
+            bannerImage.src = croppedCanvas.toDataURL("image/png");
+            finalizeCrop();
+        });
+    
+        cropThumbnailBtn.addEventListener("click", () => {
+            const croppedCanvas = cropper.getCroppedCanvas();
+            thumbnailImage.src = croppedCanvas.toDataURL("image/png");
+            finalizeCrop();
+        });
+    
+        function finalizeCrop() {
+            if (cropper) {
+                cropper.destroy();
+            }
+            cropBannerBtn.style.display = "none";
+            cropThumbnailBtn.style.display = "none";
+        }
+    
+        let bannerBase64;
+        let thumbnailBase64;
+    
+        document.getElementById("cropBannerBtn").addEventListener("click", () => {
+            bannerBase64 = cropper.getCroppedCanvas().toDataURL("image/png");
+        });
+    
+        document.getElementById("cropThumbnailBtn").addEventListener("click", () => {
+            thumbnailBase64 = cropper.getCroppedCanvas().toDataURL("image/png");
+        });
+    
     }
-
-    let bannerBase64;
-    let thumbnailBase64;
-
-    document.getElementById("cropBannerBtn").addEventListener("click", () => {
-        bannerBase64 = cropper.getCroppedCanvas().toDataURL("image/png");
-    });
-
-    document.getElementById("cropThumbnailBtn").addEventListener("click", () => {
-        thumbnailBase64 = cropper.getCroppedCanvas().toDataURL("image/png");
-    });
-
 }
 
 // -----------------------------------------
