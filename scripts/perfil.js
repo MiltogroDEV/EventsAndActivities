@@ -8,6 +8,7 @@ const btnDisplay = document.getElementById("btnDisplay");
 
 const userFoto = document.getElementById("userFoto");
 const userCpf = document.getElementById("userCpf");
+const userTelefone = document.getElementById("userTelefone");
 const userNome = document.getElementById("userNome");
 const userEmail = document.getElementById("userEmail");
 const userCidade = document.getElementById("userCidade");
@@ -21,15 +22,15 @@ const avatar = document.getElementById("avatar");
 const btn1lc = document.getElementById("btn1lc");
 const btn2lc = document.getElementById("btn2lc");
 
-let userCpfFormatted = "";
-
-if (userSession){
-    userCpfFormatted = userSession.cpf[0] + userSession.cpf[1] + userSession.cpf[2] + "." + userSession.cpf[3] + userSession.cpf[4] + userSession.cpf[5] + "." + userSession.cpf[6] + userSession.cpf[7] + userSession.cpf[8] + "-" + userSession.cpf[9] + userSession.cpf[10];
-}
-
 const noAcess = document.getElementById("noAcess");
 
+let userCpfFormatted = "";
+let userTelefoneFormatted = "";
+
+
 if (userSession) {
+    userCpfFormatted = userSession.cpf[0] + userSession.cpf[1] + userSession.cpf[2] + "." + userSession.cpf[3] + userSession.cpf[4] + userSession.cpf[5] + "." + userSession.cpf[6] + userSession.cpf[7] + userSession.cpf[8] + "-" + userSession.cpf[9] + userSession.cpf[10];
+    userTelefoneFormatted = "(" + userSession.telefone[0] +  userSession.telefone[1] + ")" + " " + userSession.telefone[2] +  userSession.telefone[3] +  userSession.telefone[4] +  userSession.telefone[5] +  userSession.telefone[6] + "-" +  userSession.telefone[7] +  userSession.telefone[8] +  userSession.telefone[9] +  userSession.telefone[10];
 
     if (userCpf){
         btnDisplay.style.display = "block";
@@ -79,6 +80,7 @@ btnEventos.addEventListener('click', (e) => {
 const editNome = document.getElementById("editNome");
 const editEmail = document.getElementById("editEmail");
 const editCpf = document.getElementById("editCpf");
+const editTelefone = document.getElementById("editTelefone");
 const editCidade = document.getElementById("editCidade");
 const editEstado = document.getElementById("editEstado");
 const editRua = document.getElementById("editRua");
@@ -92,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         editNome.value = userSession.nome;
         editEmail.value = userSession.email;
         editCpf.value = userCpfFormatted;
+        editTelefone.value = userTelefoneFormatted;
         editCidade.value = userSession.cidade;
         editEstado.value = userSession.estado;
         editRua.value = userSession.rua;
