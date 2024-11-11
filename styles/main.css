@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300&display=swap');
+
+.font1 {
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+}
+
+/* -------------------------------------------- */
+
+:root{
+    --CorBranco: White;
+    --CorCinzaCla: rgb(129, 129, 129);
+    /* --CorCinza: rgb(85, 85, 85); */
+    --CorCinza: rgba(85, 85, 85, 0.596);
+    --CorCinzaEsc: rgb(34, 34, 34);
+    --CorPreto: Black;
+}
+
+/* ---------------------- Inicio ---------------------- */
+
+#btnInicio, #btnEventos{
+    cursor: pointer;
+}
+
+#main{
+    display: flex;
+    justify-content: center;
+}
+
+#mainn{
+    width: 60%;
+}
+
+.spc0{
+    margin-top: 20px;
+}
+.spc1{
+    margin-top: 50px;
+}
+.spc2{
+    margin-top: 100px;
+}
+.spc3{
+    margin-top: 150px;
+}
+
+#carrossel{
+    display: flex;
+    justify-content: center;
+    margin: 100px 0;
+}
+
+.carrossel{
+    width: 100%;
+}
+
+.imgCursos{
+    width: 100%;
+}
+
+.fontSize1{
+    font-size: 20px;
+}
+
+.fontSize2{
+    font-size: 20px;
+}
+
+/* ---------------------- Evento ---------------------- */
+
+.banner{
+    width: 100%;
+    margin: 0 0 20px 0;
+}
+
+.titulo{
+    font-size: 2vw;
+    font-weight: 600;
+}
+
+.desc{
+    font-size: 1.5vw;
+    font-weight: 300;
+    width: 70%;
+}
+
+/* ---------------------- Avatar ---------------------- */
+
+.avatarBg{
+    background-color: white;
+    overflow: hidden;
+}
+
+/* ---------------------- Minicursos ---------------------- */
+
+.divFotoMinicurso{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.fotoMinicurso{
+    width: 80%;
+}
+
+.tipo{
+    
+}
+
+.divCenterButton {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.subBtn{
+    width: 15vw;
+    height: 7vh;
+    font-size: 2.5vh;
+}
+
+#subBtn {
+    width: 20vw;
+    height: 6vh;
+    font-size: 3vh;
+}
+
+/* ---------------------- Minicursos ---------------------- */
+
+.footer{
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 10vh;
+}
+
+/* ---------------------- Perfil ---------------------- */
+
+.userDisplay{
+    display: flex;
+    justify-content: center;
+}
+
+.displayEsq{
+    width: 20%;
+}
+
+.displayDir{
+    margin-left: 20px;
+    width: 70%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#userFoto{
+    width: 100%;
+}
+
+#userNome{
+    font-weight: 600;
+}
+
+#userCpf{
+    font-weight: 500;
+    font-size: 3vh;
+}
+
+#userEmail{
+    font-weight: 300;
+    font-size: 2.5vh;
+}
+
+#userRole{
+    color: var(--CorCinzaCla);
+}

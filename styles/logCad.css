@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300&display=swap');
+
+.font1 {
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+}
+
+/* -------------------------------------------- */
+
+:root{
+    --CorBranco: White;
+    --CorCinzaCla: rgb(206, 206, 206);
+    /* --CorCinza: rgb(85, 85, 85); */
+    --CorCinza: rgba(85, 85, 85, 0.596);
+    --CorCinzaEsc: rgb(34, 34, 34);
+    --CorPreto: Black;
+}
+
+/* ---------------------- Login ---------------------- */
+
+#main{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px 20px;
+    border-radius: 10px;
+    background-color:var(--CorCinzaCla);
+    min-width: 20vw;
+    min-width: 25vw;
+}
+
+#registerForm{
+    width: 55vw;
+    height: 55vh;
+}
+
+#logBox{
+    background-color: var(--CorCinza);
+    width: 10vw;
+    height: 20vh;
+    border-radius: 5% 25%;
+    display: flex;
+    justify-content: center;
+    box-shadow: 10px 10px 10px 1px rgba(0, 0, 0, .25);
+}
+
+#cpfBox{
+    width: 100%;
+    height: 15%;
+    font-size: 1.5vh;
+
+}
+
+#senhaBox{
+    width: 100%;
+    height: 15%;
+    font-size: 1.5vh;
+
+}
+
+.input{
+    width: 60%;
+    height: 40%;
+    border-radius: 1vh;
+    border: 0px black;
+    font-size: 2vh;
+}
+
+.buttonLogin{
+    width: 100px;
+    height: 30px;
+    border: 0px black;
+    border-radius: 1vh;
+    font-size: 2vh;
+}
+
+.f1{
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.fdiv{
+    margin-top: 80px;
+}
+.fdiv2{
+    margin-top: 40px;
+}
+.fmarg{
+    border-radius: 1vh;
+}
+.f4{
+    position: absolute;
+    top: 80%;
+    left: 15%;
+}
+
+
+.f5{
+    position: absolute;
+    top: 15%;
+    left: 69%;
+    transform: translate(-50%, -50%);
+}
+.f6{
+    position: absolute;
+    top: 35%;
+    left: 69%;
+    transform: translate(-50%, -50%);
+}
+.f7{
+    position: absolute;
+    top: 55%;
+    left: 69%;
+    transform: translate(-50%, -50%);
+}
+
+.label{
+    font-size: 2.3vh;
+    margin-bottom: -1px;
+}
+
+.link{
+    color: var(--CorCinzaEsc);
+    font-weight: 600;
+}
+
+/* -------------------------------------------- */
+
+.bgw{
+    background-color: var(--CorBranco);
+}
+
+.card{
+    width: 400px;
+    height: 100px;
+}
+
+#btnMain{
+    display: flex;
+    justify-content: center;
+    margin: 2vh 0 1vh 0;
+}
+
+/* -------------------------------------------- */
+
+#btnVoltar{
+    position: absolute;
+    top: 1vh;
+    right: 1vw;
+}
