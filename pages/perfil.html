@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/fastbootstrap@2.2.0/dist/css/fastbootstrap.min.css" rel="stylesheet" integrity="sha256-V6lu+OdYNKTKTsVFBuQsyIlDiRWiOmtC8VQ8Lzdm2i4=" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/Styles/main.css">
+    <title>Document</title>
+</head>
+<body class="font1">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand fontSize1" href="#">Eventos & Atividades</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav me-auto">
+                    <a id="btnInicio" class="nav-link fontSize2" aria-current="page">Início</a>
+                    <a id="btnEventos" class="nav-link fontSize2" aria-current="page">Eventos</a>
+                </div>
+            </div>
+
+            <div>
+                <span class="avatar avatarBg"><img id="avatar" alt=""></span>
+            </div>
+
+            <div id="btnLogCad" class="d-flex">
+                <a id="btn1lc" style="display: none;" href="/pages/login.html" class="btn btn-outline-primary me-2">Login</a>
+                <a id="btn2lc" style="display: none;" href="/pages/cadastro.html" class="btn btn-primary">Cadastro</a>
+            </div>
+            
+        </div>
+    </nav>
+
+    <div class="spc3"></div>
+
+    <div id="main">
+        <div id="mainn">
+
+            <div class="userDisplay" >
+                <div class="displayEsq">
+                    <img id="userFoto" src="" />
+                </div>
+                <div class="displayDir">
+                    <div id="userRole" style="position: absolute; top: -15px; right: 1px;"></div>
+
+                    <h1 id="userNome"></h1>
+                    <h2 id="userCpf"></h2>
+                    <h3 id="userEmail"></h3>
+                    <div>
+                        <span id="userCidade"></span>
+                        <span id="userEstado"></span>
+                        <span id="userRua"></span>
+                        <span id="userBairro"></span>
+                        <span id="userNumero"></span>
+                    </div><br>
+
+                    <div id="btnDisplay" style="display: none;">
+                        <button id="btnEditPerfil" type="button" class="btn btn-outline-primary">Editar Perfil</button>
+                        <button id="btnLogout" type="button" class="btn btn-outline-danger">Logout</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="noAcess" class="blankslate" style="display: none;">
+                <img class="blankslate-top-img" src="/img/icons/noAcess.png" />
+                <div class="blankslate-body">
+                    <h4>Você não tem acesso a essa página</h4>
+                    <p>
+                        Nenhum usuário logado no momento
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="spc3"></div>
+    
+    <div class="footer">
+        <hr style="color: rgb(92, 92, 92);"/>
+    </div>
+
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalLabel">Editar Perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="profileEditForm">
+                        <div class="mb-3">
+                            <label for="editFoto" class="form-label">Foto do Perfil</label>
+                            <input type="file" class="form-control" id="editFoto" accept="image/*">
+                            <button type="button" class="btn btn-outline-primary" id="btnChangePhoto">Alterar Foto</button>
+                        </div>
+                        <div id="cropContainer"></div>
+                        
+                        <div class="mb-3">
+                            <label for="editNome" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="editNome" value="" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCpf" class="form-label">CPF</label>
+                            <input type="text" class="form-control" id="editCpf" value="" readonly disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="editEmail" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCidade" class="form-label">Cidade</label>
+                            <input type="text" class="form-control" id="editCidade" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Estado</label>
+                            <select class="form-select" id="editEstado" required>
+                                <option>Acre</option>
+                                <option>Alagoas</option>
+                                <option>Amapá</option>
+                                <option>Amazonas</option>
+                                <option>Bahia</option>
+                                <option>Ceará</option>
+                                <option>Distrito Federal</option>
+                                <option>Espírito Santo</option>
+                                <option>Goiás</option>
+                                <option>Maranhão</option>
+                                <option>Mato Grosso</option>
+                                <option>Mato Grosso do Sul</option>
+                                <option>Minas Gerais</option>
+                                <option>Pará</option>
+                                <option>Paraíba</option>
+                                <option>Paraná</option>
+                                <option>Pernambuco</option>
+                                <option>Piauí</option>
+                                <option>Rio de Janeiro</option>
+                                <option>Rio Grande do Norte</option>
+                                <option>Rio Grande do Sul</option>
+                                <option>Rondônia</option>
+                                <option>Roraima</option>
+                                <option>Santa Catarina</option>
+                                <option>São Paulo</option>
+                                <option>Sergipe</option>
+                                <option>Tocantins</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editRua" class="form-label">Rua</label>
+                            <input type="text" class="form-control" id="editRua" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editBairro" class="form-label">Bairro</label>
+                            <input type="text" class="form-control" id="editBairro" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editNumero" class="form-label">Número</label>
+                            <input type="text" class="form-control" id="editNumero" value="">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" id="btnSalvarAlteracoes">Salvar Alterações</button>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <div id="messageBox" class="popup alert" style="display: none; width: 60%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script type="module" src="/Scripts/perfil.js"></script>
+</body>
+</html>

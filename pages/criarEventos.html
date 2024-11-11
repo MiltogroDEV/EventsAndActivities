@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/fastbootstrap@2.2.0/dist/css/fastbootstrap.min.css" rel="stylesheet" integrity="sha256-V6lu+OdYNKTKTsVFBuQsyIlDiRWiOmtC8VQ8Lzdm2i4=" crossorigin="anonymous">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.7.7/dist/css/tempus-dominus.min.css" rel="stylesheet"/> 
+        <link rel="stylesheet" href="/Styles/main.css">
+        <title>Document</title>
+    </head>
+    <body class="font1">
+        
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container-fluid">
+                <a class="navbar-brand fontSize1" href="#">Eventos & Atividades</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav me-auto">
+                        <a class="nav-link fontSize2" aria-current="page" href="/index.html">Início</a>
+                        <a class="nav-link active fontSize2" aria-current="page" href="/pages/eventos.html">Eventos</a>
+                    </div>
+                </div>
+    
+                <div class="d-flex">
+                    <a id="btnlc1" href="/pages/login.html" style="display: none;" class="btn btn-outline-primary me-2">Login</a>
+                    <a id="btnlc2" href="/pages/cadastro.html" style="display: none;" class="btn btn-primary">Cadastro</a>
+                </div>
+
+                <div>
+                    <span class="avatar avatarBg"><img id="avatar" alt=""></span>
+                </div>
+                
+            </div>
+        </nav>
+
+        <div class="spc3"></div>
+
+        <div id="main">
+            <div id="mainn" style="position: relative;">
+                <div id="divMudarDisplayAdm">
+                    <div id="formCriarEvento">
+                        <label for="basic-url" class="form-label">Imagens</label>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="bannerUpload">Banner</label>
+                            <input type="file" class="form-control" id="bannerUpload" accept="image/*">
+                        </div>
+                        <img id="bannerImage" style="max-width: 100%; display: none;" alt="Prévia do Banner">
+                        <button id="cropBannerBtn" class="font1" style="display: none;">Cortar Banner</button>
+    
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="thumbnailUpload">Miniatura</label>
+                            <input type="file" class="form-control" id="thumbnailUpload" accept="image/*">
+                        </div>
+                        <img id="thumbnailImage" style="max-width: 100%; display: none;" alt="Prévia da Miniatura">
+                        <button id="cropThumbnailBtn" class="font1" style="display: none;">Cortar Miniatura</button>
+    
+                        <br><label for="basic-url" class="form-label">Informações do Evento</label>
+    
+                        <div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="eventDate">Data e hora de Início</label>
+                                <input type="date" class="form-control" id="eventoDataInicio" name="eventoDataInicio" required>
+                                
+                                <input type="time" class="form-control" id="eventoHoraInicio" name="eventoDataInicio" required>
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="eventDate">Data e hora do Fim</label>
+                                <input type="date" class="form-control" id="eventoDataFim" name="eventoDataFim" required>
+                                
+                                <input type="time" class="form-control" id="eventoHoraFim" name="eventoDataFim" required>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon3">Título</span>
+                            <input type="text" class="form-control" id="tituloEvento" aria-describedby="basic-addon3" required>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text">Descrição</span>
+                            <textarea id="descEvento" class="form-control" maxlength="255" aria-label="Digite uma descrição do evento"></textarea>
+                        </div>
+                        
+                        <br><label for="basic-url" class="form-label">Endereço</label>
+                        
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon3">Instituição</span>
+                            <input type="text" class="form-control" id="instEvento" aria-describedby="basic-addon3" required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon3">Rua</span>
+                            <input type="text" class="form-control" id="ruaEvento" aria-describedby="basic-addon3" required>
+                            <span class="input-group-text" id="basic-addon3">Bairro</span>
+                            <input type="text" class="form-control" id="bairroEvento" aria-describedby="basic-addon3" required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon3">Numero</span>
+                            <input type="text" class="form-control" id="numeroEvento" aria-describedby="basic-addon3" required>
+                            <span class="input-group-text" id="basic-addon3">Cidade</span>
+                            <input type="text" class="form-control" id="cidadeEvento" aria-describedby="basic-addon3" required>
+                            
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon3">Estado</span>
+                            <select class="form-select" id="estadoEvento" required>
+                                <option>Acre</option>
+                                <option>Alagoas</option>
+                                <option>Amapá</option>
+                                <option>Amazonas</option>
+                                <option>Bahia</option>
+                                <option>Ceará</option>
+                                <option>Distrito Federal</option>
+                                <option>Espírito Santo</option>
+                                <option>Goiás</option>
+                                <option>Maranhão</option>
+                                <option>Mato Grosso</option>
+                                <option>Mato Grosso do Sul</option>
+                                <option>Minas Gerais</option>
+                                <option>Pará</option>
+                                <option>Paraíba</option>
+                                <option>Paraná</option>
+                                <option>Pernambuco</option>
+                                <option>Piauí</option>
+                                <option>Rio de Janeiro</option>
+                                <option>Rio Grande do Norte</option>
+                                <option>Rio Grande do Sul</option>
+                                <option>Rondônia</option>
+                                <option>Roraima</option>
+                                <option>Santa Catarina</option>
+                                <option>São Paulo</option>
+                                <option>Sergipe</option>
+                                <option>Tocantins</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="spc1"></div>
+
+                    <div style="display: flex; justify-content: center;">
+                        <div id="messageBox" class="popup alert" style="display: none; width: 80%;"></div>
+                    </div>
+
+                    <div style="display: flex; justify-content: center;">
+                        <button id="btnCriarEvento2" type="button" class="btn btn-outline-success">Criar Evento</button>
+                    </div>
+                </div>
+
+                <div id="noAcessAdm" class="blankslate" style="display: none;">
+                    <img class="blankslate-top-img" src="/img/icons/noAcess.png" />
+                    <div class="blankslate-body">
+                        <h4>Você não tem acesso a essa página</h4>
+                        <p>
+                            Clique abaixo para redirecionarAdm-mos à página correta
+                        </p>
+                        <div class="blankslate-actions">
+                            <button id="redirecionarAdm" class="btn btn-primary" type="button">Me redirecione</button>
+                          </div>
+                    </div>
+                </div>
+
+                <div class="spc3"></div>
+
+            </div>
+        </div>
+        
+        <div class="footer">
+            <hr style="color: rgb(92, 92, 92);"/>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.7.7/dist/js/tempus-dominus.min.js"></script>
+        <script type="module" src="/scripts/evento.js"></script>
+        <script src="/scripts/generic.js"></script>
+    </body>
+</html>
