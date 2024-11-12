@@ -76,6 +76,8 @@ async function login(e){
     }
 }
 
+// ------------------------------------------------------------------
+
 function t(){
     const userSession = {
         cpf: "01010101010",
@@ -90,19 +92,21 @@ function t(){
         email: "mizera@mizera.com",
         rua: "Rua do cao"
     };
-
+    
     localStorage.setItem("userSession", JSON.stringify(userSession));
-
+    
     // setTimeout(() => {
-    //     window.location.href = "/index.html";
-    // }, 2000);
-
-    console.log(userSession.cpf);
-}
+        //     window.location.href = "/index.html";
+        // }, 2000);
+        
+        console.log(userSession.cpf);
+    }
+    
+// ------------------------------------------------------------------
 
 const loginButton = document.getElementById("loginBtn");
 // loginButton.addEventListener("click", login);
-loginButton.addEventListener("click", t);
+loginButton.addEventListener("click", t); // apagar essa linha e a função t
 
 document.getElementById("loginForm").addEventListener("submit", (e) => {
     e.preventDefault();
