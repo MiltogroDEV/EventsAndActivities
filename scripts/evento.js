@@ -94,12 +94,10 @@ if (pageCriarEventos){
 
 
     const eventoDataInicio = document.getElementById('eventoDataInicio');
-    const eventoDataFim = document.getElementById('eventoDataFim');
     const eventoHoraInicio = document.getElementById('eventoHoraInicio');
+    const eventoDataFim = document.getElementById('eventoDataFim');
     const eventoHoraFim = document.getElementById('eventoHoraFim');
-
-    const eventoDataHoraInicio = `${eventoDataInicio}T${eventoHoraInicio}:00.000Z`
-    const eventoDataHoraFim = `${eventoDataFim}T${eventoHoraFim}:00.000Z`
+    
     const eventoNome = document.getElementById('tituloEvento');
     const eventoDesc = document.getElementById('descEvento');
     const eventoInst = document.getElementById('instEvento');
@@ -108,7 +106,7 @@ if (pageCriarEventos){
     const eventoNumero = document.getElementById('numeroEvento');
     const eventoCidade = document.getElementById('cidadeEvento');
     const eventoEstado = document.getElementById('estadoEvento');
-
+    
     async function criarEvento(e) {
         e.preventDefault();
 
@@ -125,9 +123,13 @@ if (pageCriarEventos){
                 eventoHoraFim.value = "";
             }
         } else {
+
+            const eventoDataHoraInicio = `${eventoDataInicio.value}T${eventoHoraInicio.value}:00.000Z`;
+            const eventoDataHoraFim = eventoDataFim.value + "T" + eventoHoraFim.value + ":59.999Z";
+            
             const data = {
                 nome: `${eventoNome.value}`,
-                descricao: `${eventoDesc.value}`,
+                // descricao: `${eventoDesc.value}`,
                 instituicao: `${eventoInst.value}`,
                 datainicio: `${eventoDataHoraInicio}`,
                 datafim: `${eventoDataHoraFim}`,
@@ -140,6 +142,11 @@ if (pageCriarEventos){
                 miniatura: `${thumbnailBase64}`
             };
 
+            // console.log(data)
+            console.log(`${eventoDataInicio.value} | ${eventoHoraInicio.value}`)
+            console.log(`${eventoDataFim.value} | ${eventoHoraFim.value}`)
+            console.log(`${eventoDataHoraInicio} | ${eventoDataHoraFim}`)
+
             try {
                 console.log("Tentando criar evento..."); // Remover depois
                 const response = await apiCall("/create/event", "POST", data);
@@ -147,7 +154,7 @@ if (pageCriarEventos){
                     showMessage("success", "Evento criado com sucesso!");
 
                     setTimeout(() => {
-                        window.location.href = "/pages/adm/eventosAdm.html";
+                        window.location.href = "/pages/criarEventos.html";
                     }, 2000);
                 } else if (response.error) {
                     showMessage("error", `${response.error}`);
