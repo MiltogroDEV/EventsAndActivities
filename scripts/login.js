@@ -76,6 +76,9 @@ async function login(e){
     }
 }
 
+const loginButton = document.getElementById("loginBtn");
+// loginButton.addEventListener("click", login);
+
 // ------------------------------------------------------------------
 
 function t(){
@@ -102,11 +105,10 @@ function t(){
         console.log(userSession.cpf);
     }
     
+    loginButton.addEventListener("click", t); // apagar essa linha e a função t
+    
 // ------------------------------------------------------------------
 
-const loginButton = document.getElementById("loginBtn");
-// loginButton.addEventListener("click", login);
-loginButton.addEventListener("click", t); // apagar essa linha e a função t
 
 document.getElementById("loginForm").addEventListener("submit", (e) => {
     e.preventDefault();
