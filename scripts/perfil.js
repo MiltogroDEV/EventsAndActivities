@@ -25,11 +25,11 @@ const btn2lc = document.getElementById("btn2lc");
 const noAcess = document.getElementById("noAcess");
 
 let userCpfFormatted = "";
-// let userTelefoneFormatted = "";
+let userTelefoneFormatted = "";
 
 if (userSession) {
     userCpfFormatted = userSession.cpf[0] + userSession.cpf[1] + userSession.cpf[2] + "." + userSession.cpf[3] + userSession.cpf[4] + userSession.cpf[5] + "." + userSession.cpf[6] + userSession.cpf[7] + userSession.cpf[8] + "-" + userSession.cpf[9] + userSession.cpf[10];
-    // userTelefoneFormatted = "(" + userSession.telefone[0] +  userSession.telefone[1] + ")" + " " + userSession.telefone[2] +  userSession.telefone[3] +  userSession.telefone[4] +  userSession.telefone[5] +  userSession.telefone[6] + "-" +  userSession.telefone[7] +  userSession.telefone[8] +  userSession.telefone[9] +  userSession.telefone[10];
+    userTelefoneFormatted = "(" + userSession.telefone[0] +  userSession.telefone[1] + ")" + " " + userSession.telefone[2] +  userSession.telefone[3] +  userSession.telefone[4] +  userSession.telefone[5] +  userSession.telefone[6] + "-" +  userSession.telefone[7] +  userSession.telefone[8] +  userSession.telefone[9] +  userSession.telefone[10];
 
     if (userCpf){
         btnDisplay.style.display = "block";

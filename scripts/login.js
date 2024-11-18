@@ -41,7 +41,6 @@ async function login(e){
         console.log(data);
 
         try{
-            console.log("tentando logar"); // remover depois
             attemptLoggin = await apiCall("/login", "POST", data);
             if(attemptLoggin.success){
                 showMessage("success", "Login efetuado com sucesso!")
@@ -49,6 +48,7 @@ async function login(e){
                 const userSession = {
                     cpf: attemptLoggin.cpf,
                     role: attemptLoggin.role,
+                    telefone: attemptLoggin.telefone,
                     cidade: attemptLoggin.cidade,
                     estado: attemptLoggin.estado,
                     foto: attemptLoggin.foto,
@@ -77,38 +77,7 @@ async function login(e){
 }
 
 const loginButton = document.getElementById("loginBtn");
-// loginButton.addEventListener("click", login);
-
-// ------------------------------------------------------------------
-
-function t(){
-    const userSession = {
-        cpf: "01010101010",
-        role: "administrador",
-        // role: "participante",
-        cidade: "Cajazeiras",
-        estado: "Paraiba",
-        foto: "Default",
-        numero: "325235",
-        bairro: "Pio X",
-        nome: "Emilton Neto",
-        email: "mizera@mizera.com",
-        rua: "Rua do cao"
-    };
-    
-    localStorage.setItem("userSession", JSON.stringify(userSession));
-    
-    // setTimeout(() => {
-        //     window.location.href = "/index.html";
-        // }, 2000);
-        
-        console.log(userSession.cpf);
-    }
-    
-    loginButton.addEventListener("click", t); // apagar essa linha e a função t
-    
-// ------------------------------------------------------------------
-
+loginButton.addEventListener("click", login);
 
 document.getElementById("loginForm").addEventListener("submit", (e) => {
     e.preventDefault();

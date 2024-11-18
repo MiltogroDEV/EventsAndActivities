@@ -129,7 +129,7 @@ if (pageCriarEventos){
             
             const data = {
                 nome: `${eventoNome.value}`,
-                // descricao: `${eventoDesc.value}`,
+                descricao: `${eventoDesc.value}`,
                 instituicao: `${eventoInst.value}`,
                 datainicio: `${eventoDataHoraInicio}`,
                 datafim: `${eventoDataHoraFim}`,
@@ -142,14 +142,10 @@ if (pageCriarEventos){
                 miniatura: `${thumbnailBase64}`
             };
 
-            // console.log(data)
-            console.log(`${eventoDataInicio.value} | ${eventoHoraInicio.value}`)
-            console.log(`${eventoDataFim.value} | ${eventoHoraFim.value}`)
-            console.log(`${eventoDataHoraInicio} | ${eventoDataHoraFim}`)
+            console.log(data);
 
             try {
-                console.log("Tentando criar evento..."); // Remover depois
-                const response = await apiCall("/create/event", "POST", data);
+                const response = await apiCall("/event/create", "POST", data);
                 if (response.success) {
                     showMessage("success", "Evento criado com sucesso!");
 
@@ -158,19 +154,6 @@ if (pageCriarEventos){
                     }, 2000);
                 } else if (response.error) {
                     showMessage("error", `${response.error}`);
-
-                    // eventoNome.value = "";
-                    // eventoDesc.value = "";
-                    // eventoInst.value = "";
-                    // eventoRua.value = "";
-                    // eventoBairro.value = "";
-                    // eventoNumero.value = "";
-                    // eventoCidade.value = "";
-                    // eventoEstado.value = "";
-                    // eventoDataInicio.value = "";
-                    // eventoHoraInicio.value = "";
-                    // eventoDataFim.value = "";
-                    // eventoHoraFim.value = "";
                 }
             } catch (e) {
                 console.log(e);

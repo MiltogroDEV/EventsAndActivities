@@ -8,7 +8,7 @@ if (eventos){
         e.preventDefault();
 
         try {
-            const response = await apiCall('/get/listevents', 'GET');
+            const response = await apiCall('/event/listevents', 'GET');
             const eventos = response.events;
     
             const container = document.getElementById('adicionarEventos');
