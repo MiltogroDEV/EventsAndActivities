@@ -12,31 +12,35 @@ if (eventos){
             const eventos = response.events;
     
             const container = document.getElementById('adicionarEventos');
+            
+            if (eventos){
+                eventos.forEach(evento => {
+                    const eventoDiv = document.createElement('div');
+                    eventoDiv.classList.add('col-lg-4', 'col-md-8', 'col-sm-10');
     
-            // container.innerHTML = '';
-    
-            eventos.forEach(evento => {
-                const eventoDiv = document.createElement('div');
-                eventoDiv.classList.add('col-lg-4', 'col-md-8', 'col-sm-10');
-    
-                eventoDiv.innerHTML = `
-                    <div class="single-blog blog-style-one">
-                        <div class="blog-image">
-                            <a href="#">
-                                <img src="${evento.miniatura}" class="imgCursos" alt="Miniatura do Evento"/>
-                            </a>
+                    
+        
+                    eventoDiv.innerHTML = `
+                        <div class="single-blog blog-style-one">
+                            <div class="blog-image">
+                                <a href="#">
+                                    <img src="${evento.miniatura}" class="imgCursos" alt="Blog"/>
+                                </a>
+                            </div>
+                            <div class="blog-content">
+                                <h5 class="blog-title">
+                                    <a href="#">${evento.nome}</a>
+                                </h5>
+                                <p class="text">
+                                    ${evento.descricao}
+                                </p>
+                            </div>
                         </div>
-                        <div class="blog-content">
-                            <h5 class="blog-title">
-                                <a href="#">${evento.nome}</a>
-                            </h5>
-                            <p class="text">${evento.descricao}</p>
-                        </div>
-                    </div>
-                `;
-    
-                container.appendChild(eventoDiv);
-            });
+                    `;
+        
+                    container.appendChild(eventoDiv);
+                });
+            }
     
             if (userSession.role == "administrador"){
                 const addEventDiv = document.createElement('div');
