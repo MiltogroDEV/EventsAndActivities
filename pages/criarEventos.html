@@ -47,15 +47,19 @@
                             <label class="input-group-text" for="bannerUpload">Banner</label>
                             <input type="file" class="form-control" id="bannerUpload" accept="image/*">
                         </div>
-                        <img id="bannerImage" style="max-width: 100%; display: none;" alt="Prévia do Banner">
-                        <button id="cropBannerBtn" class="font1" style="display: none;">Cortar Banner</button>
+                        <div id="divBannerPrevia">
+                            <button id="cropBannerBtn" class="font1 btn btn-outline-primary" style="display: none;">Cortar Banner</button>
+                            <img id="bannerImage" style="max-width: 100%; display: none;" alt="Prévia do Banner">
+                        </div>
     
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="thumbnailUpload">Miniatura</label>
                             <input type="file" class="form-control" id="thumbnailUpload" accept="image/*">
                         </div>
-                        <img id="thumbnailImage" style="max-width: 100%; display: none;" alt="Prévia da Miniatura">
-                        <button id="cropThumbnailBtn" class="font1" style="display: none;">Cortar Miniatura</button>
+                        <div id="divThumbPrevia">
+                            <button id="cropThumbnailBtn" class="font1 btn btn-outline-primary" style="display: none;">Cortar Miniatura</button>
+                            <img id="thumbnailImage" style="max-width: 100%; display: none;" alt="Prévia da Miniatura">
+                        </div>
     
                         <br><label for="basic-url" class="form-label">Informações do Evento</label>
     
