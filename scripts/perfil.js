@@ -33,13 +33,20 @@ if (userSession) {
 
     if (userCpf){
         btnDisplay.style.display = "block";
-        userFoto.src = userSession.foto;
-        avatar.src == userSession.foto;
+
+        if (userSession.foto === "Default"){
+            userFoto.src = "/img/icons/avatar.png";
+            avatar.src = "/img/icons/avatar.png";
+        } else {
+            userFoto.src = userSession.foto;
+            avatar.src = userSession.foto;
+        }
         
         userFoto.style.borderRadius = "100vh";
         userCpf.textContent = userCpfFormatted;
         userNome.textContent = userSession.nome;
         userEmail.textContent = userSession.email;
+        // userTelefone.textContent = userTelefoneFormatted;
         
         userCidade.textContent = userSession.cidade + " - ";
         userEstado.textContent = userSession.estado + " | "; 
@@ -199,6 +206,7 @@ btnLogout.addEventListener('click', (e) => {
 
 const btnChangePhoto = document.getElementById("btnChangePhoto");
 const editFoto = document.getElementById("editFoto");
+const divMudarFoto = document.getElementById("divMudarFoto");
 let cropper;
 
 btnChangePhoto.style.display = "none";
@@ -215,10 +223,12 @@ editFoto.addEventListener("change", () => {
             img.id = "cropImage";
             img.src = reader.result;
 
+            
             const modalBody = document.getElementById("cropContainer");
+            modalBody.style.height = "50vh";
             modalBody.innerHTML = "";
             modalBody.appendChild(img);
-
+            
             cropper = new Cropper(img, {
                 aspectRatio: 1,
                 viewMode: 1,
@@ -230,10 +240,11 @@ editFoto.addEventListener("change", () => {
 });
 
 btnChangePhoto.addEventListener("click", () => {
+    const modalBody = document.getElementById("cropContainer");
     if (cropper) {
         const canvas = cropper.getCroppedCanvas();
         croppedImageBase64 = canvas.toDataURL("image/png");
-
+        
         const cropImage = document.getElementById("cropImage");
         if (cropImage) {
             cropImage.remove();
@@ -243,6 +254,7 @@ btnChangePhoto.addEventListener("click", () => {
         cropper = null;
 
         btnChangePhoto.style.display = "none";
+        modalBody.style.height = "0px";
     }
 });
 
