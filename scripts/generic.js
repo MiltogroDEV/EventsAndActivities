@@ -16,6 +16,8 @@ const btnTutor = document.getElementById("btnTutor");
 const btnInscrever = document.getElementById("btnInscrever");
 const divCriarEvento = document.getElementById("divCriarEvento");
 
+const indexUnico = document.getElementById("indexUnico");
+
 if (userSession) {
     if (userSession.role === "administrador") {
         if (divMudarDisplay) divMudarDisplay.style.display = "block";
@@ -62,6 +64,7 @@ if (userSession) {
         if (btnTutor) btnTutor.style.display = "none";
         if (btnInscrever) btnInscrever.style.display = "none";
         if (divCriarEvento) divCriarEvento.style.display = "none";
+        if (indexUnico) divMudarDisplay.style.display = "block";
     }
     
     if (avatar) {
