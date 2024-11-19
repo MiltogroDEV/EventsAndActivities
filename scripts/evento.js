@@ -23,6 +23,9 @@ if (pageCriarEventos){
     const thumbnailImage = document.getElementById('thumbnailImage');
     const cropBannerBtn = document.getElementById('cropBannerBtn');
     const cropThumbnailBtn = document.getElementById('cropThumbnailBtn');
+    
+    const divBannerPrevia = document.getElementById('divBannerPrevia');
+    const divThumbPrevia = document.getElementById('divThumbPrevia');
 
     bannerInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
@@ -34,17 +37,21 @@ if (pageCriarEventos){
                 cropBannerBtn.style.display = 'inline';
 
                 bannerImage.onload = () => {
+                    divBannerPrevia.style.height = "50vh";
+                    divBannerPrevia.style.marginBottom = "4vh";
+                    
                     if (bannerCropper) bannerCropper.destroy();
                     bannerCropper = new Cropper(bannerImage, {
                         aspectRatio: 900 / 150,
                         viewMode: 1
                     });
                 };
+                
             };
             reader.readAsDataURL(file);
         }
     });
-
+    
     thumbnailInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -53,14 +60,18 @@ if (pageCriarEventos){
                 thumbnailImage.src = event.target.result;
                 thumbnailImage.style.display = 'block';
                 cropThumbnailBtn.style.display = 'inline';
-
+                
                 thumbnailImage.onload = () => {
+                    divThumbPrevia.style.height = "50vh";
+                    divThumbPrevia.style.marginBottom = "4vh";
+
                     if (thumbnailCropper) thumbnailCropper.destroy();
                     thumbnailCropper = new Cropper(thumbnailImage, {
                         aspectRatio: 800 / 450,
                         viewMode: 1
                     });
                 };
+                
             };
             reader.readAsDataURL(file);
         }
@@ -75,6 +86,8 @@ if (pageCriarEventos){
 
         bannerImage.style.display = 'none';
         cropBannerBtn.style.display = 'none';
+        divBannerPrevia.style.height = '0px';
+        divBannerPrevia.style.marginBottom = "0px";
 
         bannerCropper.destroy();
     });
@@ -88,6 +101,8 @@ if (pageCriarEventos){
 
         thumbnailImage.style.display = 'none';
         cropThumbnailBtn.style.display = 'none';
+        divThumbPrevia.style.height = '0px';
+        divThumbPrevia.style.marginBottom = "0px";
 
         thumbnailCropper.destroy();
     });
@@ -174,10 +189,10 @@ if (pageSacc){
     const modal = new bootstrap.Modal(document.getElementById("modalBody"));
 
     if (modal){
-        const admBtnEditarEvento = document.getElementById("admBtnEditarEvento");
+        const admBtnCW = document.getElementById("admBtnCW");
         const btnFecharModal = document.getElementById("btnFecharModal");
         
-        admBtnEditarEvento.addEventListener("click", () => {
+        admBtnCW.addEventListener("click", () => {
             modal.show();
         });
         
@@ -265,4 +280,132 @@ if (pageSacc){
         });
     
     }
+}
+
+// --------------------- GERAR PAGINA DO EVENTO ESPECIFICO --------------------------
+
+const eventoUnico = document.getElementById("eventoUnico");
+
+if(eventoUnico){
+    async function carregarEvento(e) {
+        e.preventDefault();
+    
+        const nomeEvento = localStorage.getItem("eventoSelecionado");
+    
+        if (!nomeEvento) {
+            showMessage("error", "Nenhum evento foi selecionado!");
+        } else {
+            const data = {
+                "nome": `${nomeEvento}`
+            };
+    
+            let response;
+    
+            try {
+                response = await apiCall("/event/getevent", "POST", data);
+
+                if (response) {
+    
+                    const bannerEventoEscolhido = document.getElementById("banner");
+                    const tituloEventoEscolhido = document.getElementById("titulo");
+                    const descricaoEventoEscolhido = document.getElementById("descricao");
+                    const dataHorarioEventoEscolhido = document.getElementById("data-horario");
+                    const localizacaoEventoEscolhido = document.getElementById("localizacao");
+
+                    bannerEventoEscolhido.src = response.banner;
+                    tituloEventoEscolhido.textContent = response.nome;
+                    descricaoEventoEscolhido.textContent = response.descricao;
+                    dataHorarioEventoEscolhido.textContent = `${response.datainicio} até ${response.datafim}`;
+                    localizacaoEventoEscolhido.textContent = `Inst. ${response.instituicao} | ${response.rua}, ${response.numero} - ${response.bairro} | ${response.cidade} - ${response.estado}`;
+
+                } else if (response.error) {
+                    showMessage("error", `${response.error}`);
+                }
+            } catch (e) {
+                console.log("Erro ao buscar o evento:", e);
+                showMessage("error", "Erro ao carregar o evento. Tente novamente.");
+            }
+        }
+    }
+
+    const modal = new bootstrap.Modal(document.getElementById("modalBody"));
+    if (modal){
+        const admBtnCW = document.getElementById("admBtnCW");
+        const btnFecharModal = document.getElementById("btnFecharModal");
+        
+        if(admBtnCW){
+            admBtnCW.addEventListener("click", () => {
+                modal.show();
+            });
+        }
+        
+        if(btnFecharModal){
+            btnFecharModal.addEventListener("click", () => {
+                modal.hide();
+            });
+        }
+        
+        const divThumbPrevia = document.getElementById("divThumbPrevia");
+        const thumbnailUpload = document.getElementById("thumbnailUpload");
+        const thumbnailImage = document.getElementById("thumbnailImage");
+        const cropThumbnailBtn = document.getElementById("cropThumbnailBtn");
+    
+        let cropper;
+        let croppedBase64 = '';
+    
+        thumbnailUpload.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    thumbnailImage.src = reader.result;
+                    thumbnailImage.style.display = "block";
+                    cropThumbnailBtn.style.display = "inline";
+                    divThumbPrevia.style.height = "50vh";
+        
+                    initializeCropper(thumbnailImage, 800, 450);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        function initializeCropper(imageElement, width, height) {
+            if (cropper) {
+                cropper.destroy();
+            }
+            cropper = new Cropper(imageElement, {
+                aspectRatio: width / height,
+                viewMode: 1,
+            });
+        }
+        
+    
+        cropThumbnailBtn.addEventListener("click", () => {
+            if (cropper) {
+                const croppedCanvas = cropper.getCroppedCanvas();
+                if (croppedCanvas) {
+                    croppedBase64 = croppedCanvas.toDataURL("image/png");
+                    finalizeCrop();
+                } else {
+                    console.error("Erro ao obter o canvas cortado.");
+                }
+            } else {
+                console.error("Cropper não foi inicializado corretamente.");
+            }
+        });
+        
+    
+        function finalizeCrop() {
+            if (cropper) {
+                cropper.destroy();
+            }
+            cropThumbnailBtn.style.display = "none";
+            divThumbPrevia.style.height = "0px";
+            thumbnailImage.style.display = "none";
+        }
+    }
+    
+    document.addEventListener("DOMContentLoaded", (e) => {
+        carregarEvento(e);
+    });
 }
