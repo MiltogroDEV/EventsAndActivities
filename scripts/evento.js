@@ -291,7 +291,7 @@ if(eventoUnico){
         e.preventDefault();
     
         const nomeEvento = localStorage.getItem("eventoSelecionado");
-    
+        
         if (!nomeEvento) {
             showMessage("error", "Nenhum evento foi selecionado!");
         } else {
@@ -300,24 +300,24 @@ if(eventoUnico){
             };
     
             let response;
-    
+            
             try {
                 response = await apiCall("/event/getevent", "POST", data);
-
+                
                 if (response) {
-    
+                    
                     const bannerEventoEscolhido = document.getElementById("banner");
                     const tituloEventoEscolhido = document.getElementById("titulo");
                     const descricaoEventoEscolhido = document.getElementById("descricao");
                     const dataHorarioEventoEscolhido = document.getElementById("data-horario");
                     const localizacaoEventoEscolhido = document.getElementById("localizacao");
-
+                    
                     bannerEventoEscolhido.src = response.banner;
                     tituloEventoEscolhido.textContent = response.nome;
                     descricaoEventoEscolhido.textContent = response.descricao;
                     dataHorarioEventoEscolhido.textContent = `${response.datainicio} até ${response.datafim}`;
                     localizacaoEventoEscolhido.textContent = `Inst. ${response.instituicao} | ${response.rua}, ${response.numero} - ${response.bairro} | ${response.cidade} - ${response.estado}`;
-
+                    
                 } else if (response.error) {
                     showMessage("error", `${response.error}`);
                 }
@@ -332,6 +332,7 @@ if(eventoUnico){
     if (modal){
         const admBtnCW = document.getElementById("admBtnCW");
         const btnFecharModal = document.getElementById("btnFecharModal");
+        const saveCW = document.getElementById("saveCW");
         
         if(admBtnCW){
             admBtnCW.addEventListener("click", () => {
@@ -346,14 +347,14 @@ if(eventoUnico){
         }
         
         const divThumbPrevia = document.getElementById("divThumbPrevia");
-        const thumbnailUpload = document.getElementById("thumbnailUpload");
+        const thumbnailCW = document.getElementById("thumbnailCW");
         const thumbnailImage = document.getElementById("thumbnailImage");
         const cropThumbnailBtn = document.getElementById("cropThumbnailBtn");
-    
+        
         let cropper;
         let croppedBase64 = '';
-    
-        thumbnailUpload.addEventListener("change", (event) => {
+        
+        thumbnailCW.addEventListener("change", (event) => {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
@@ -379,7 +380,7 @@ if(eventoUnico){
             });
         }
         
-    
+        
         cropThumbnailBtn.addEventListener("click", () => {
             if (cropper) {
                 const croppedCanvas = cropper.getCroppedCanvas();
@@ -394,7 +395,7 @@ if(eventoUnico){
             }
         });
         
-    
+        
         function finalizeCrop() {
             if (cropper) {
                 cropper.destroy();
@@ -403,6 +404,74 @@ if(eventoUnico){
             divThumbPrevia.style.height = "0px";
             thumbnailImage.style.display = "none";
         }
+        
+        const tituloCW = document.getElementById("tituloCW");
+        const vagasCW = document.getElementById("vagasCW");
+        const descCW = document.getElementById("descCW");
+        
+        async function criarWorkshop(e) {
+            e.preventDefault();
+
+            const nomeEvento = localStorage.getItem("eventoSelecionado");
+            
+            if(tituloCW.value.length == 0 || vagasCW.value == 0 || descCW.value.length == 0){
+                showMessage("error", "Dados inválidos")
+                if(vagasCW.value.length == 0) vagasCW.value = 1;
+
+            } else {
+
+                const data = {
+                    "nome": `${nomeEvento}`
+                };
+                
+                let response;
+                
+                try {
+                    response = await apiCall("/event/getevent", "POST", data);
+                    
+                    if (response) {
+                        try{
+                            const data = {
+                                "datainicio": `${response.datainicio}`,
+                                "datafim": `${response.datafim}`,
+                                "nomeEvento": `${nomeEvento}`,
+                                "banner": `${croppedBase64}`,
+                                "titulo": `${tituloCW.value}`,
+                                "descricao": `${descCW.value}`,
+                                "status": true,
+                                "vagas": parseInt(vagasCW.value, 10)
+                            };
+
+                            console.log(data);
+
+                            const createWorkshop = await apiCall("/workshop/create", "POST", data);
+                            
+                            if (createWorkshop == "Minicurso criado com sucesso!") {
+                                showMessage("success", `${createWorkshop}`);
+                                
+                                setTimeout(() => {
+                                    window.location.href = "/pages/evento.html"
+                                }, 1000);
+                            } else {
+                                showMessage("error", `${createWorkshop}`);
+
+                                console.log(createWorkshop);
+                            }
+
+
+                        } catch(e) {
+                            showMessage("error", "Erro interno");
+                        }
+                    }
+                } catch(e) {
+                    showMessage("error", "Erro interno");
+                }
+            }
+        
+            
+        }
+
+        saveCW.addEventListener("click", criarWorkshop);
     }
     
     document.addEventListener("DOMContentLoaded", (e) => {
