@@ -65,12 +65,12 @@
         </div>
     </div>
 
-    <!-- MODAL PARA EDITAR EVENTO -->
+    <!-- MODAL PARA CRIAR WORKSHOP -->
     <div id="modalBody" class="modal fade" tabindex="-1" aria-labelledby="editEventModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editEventModalLabel">Editar Evento</h5>
+                    <h5 class="modal-title" id="editEventModalLabel">Criar Workshop</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -78,28 +78,28 @@
                     
                     <div class="input-group mb-3">
                         <label class="input-group-text" for="thumbnailUpload">Miniatura</label>
-                        <input type="file" class="form-control" id="thumbnailUpload" accept="image/*">
+                        <input type="file" class="form-control" id="thumbnailCW" accept="image/*">
                     </div>
                     <div id="divThumbPrevia">
                         <button id="cropThumbnailBtn" class="font1 btn btn-outline-primary" style="display: none;">Cortar Miniatura</button>
                         <img id="thumbnailImage" style="max-width: 100%; display: none;" alt="Prévia da Miniatura">
                     </div>
 
-                    <br><label class="form-label">Informações do Evento</label>
+                    <br><label class="form-label">Informações do Workshop</label>
 
                     <div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon3">Título</span>
-                            <input type="text" class="form-control" id="tituloEventoEdit" aria-describedby="basic-addon3" required>
+                            <input type="text" class="form-control" id="tituloCW" aria-describedby="basic-addon3" required>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon3">Vagas</span>
-                            <input type="number" class="form-control" id="vagasEventoEdit" aria-describedby="basic-addon3" required>
+                            <input type="number" class="form-control" id="vagasCW" aria-describedby="basic-addon3" required>
                         </div>
                     </div>
                     <div class="input-group">
                         <span class="input-group-text">Descrição</span>
-                        <textarea id="descEventoEdit" class="form-control" maxlength="255" aria-label="Digite uma descrição do evento"></textarea>
+                        <textarea id="descCW" class="form-control" maxlength="255" aria-label="Digite uma descrição do evento"></textarea>
                     </div>
 
                     <div style="display: flex; justify-content: center;">
@@ -109,8 +109,13 @@
                 </div>
                 <div class="modal-footer">
                     <button id="btnFecharModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary" id="saveEventEdit">Salvar Alterações</button>
+                    <button type="button" class="btn btn-primary" id="saveCW">Salvar Alterações</button>
                 </div>
+
+                <div style="display: flex; justify-content: center;">
+                    <div id="messageBox" class="popup alert" style="display: none; width: 60%;"></div>
+                </div>
+
                 </div>
             </div>
         </div>
