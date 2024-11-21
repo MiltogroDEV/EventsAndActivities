@@ -282,15 +282,82 @@ if (pageSacc){
     }
 }
 
+// --------------------- LISTAR EVENTOS --------------------------
+
+const userSession = JSON.parse(localStorage.getItem("userSession"));
+const eventos = document.getElementById("eventosUnico");
+
+if (eventos) {
+    async function listarEventos(e) {
+        e.preventDefault();
+
+        try {
+            const response = await apiCall('/event/listevents', 'GET');
+            const eventos = response.events;
+            const container = document.getElementById('adicionarEventos');
+
+            if (eventos) {
+                eventos.forEach(evento => {
+                    const eventoDiv = document.createElement('div');
+                    eventoDiv.classList.add('col-lg-4', 'col-md-8', 'col-sm-10');
+
+                    eventoDiv.innerHTML = `
+                        <div class="single-blog blog-style-one">
+                            <div class="blog-image">
+                                <a href="#" class="evento-link" data-evento-nome="${evento.nome}">
+                                    <img src="${evento.miniatura}" class="imgCursos" alt="Blog"/>
+                                </a>
+                            </div>
+                            <div class="blog-content">
+                                <h5 class="blog-title">
+                                    <a href="#" class="evento-link" data-evento-nome="${evento.nome}">${evento.nome}</a>
+                                </h5>
+                                <p class="text">
+                                    ${evento.descricao}
+                                </p>
+                            </div>
+                        </div>
+                    `;
+
+                    // Adicionar evento de clique para redirecionar
+                    eventoDiv.querySelector('.evento-link').addEventListener('click', () => {
+                        localStorage.setItem('eventoSelecionado', evento.nome); // Salvar o nome no localStorage
+                        window.location.href = '/pages/evento.html'; // Redirecionar para a página de detalhes
+                    });
+
+                    container.appendChild(eventoDiv);
+                });
+            }
+
+            if (userSession.role === "administrador") {
+                const addEventDiv = document.createElement('div');
+                addEventDiv.classList.add('col-lg-4', 'col-md-8', 'col-sm-10');
+                addEventDiv.innerHTML = `
+                    <div class="single-blog blog-style-one">
+                        <div class="blog-image" style="cursor: pointer;">
+                            <a href="/pages/criarEventos.html"><img id="btnCriarEvento1" src="/img/eventos/addEvent.png" class="imgCursos" alt="Adicionar Evento"/></a>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(addEventDiv);
+            }
+
+        } catch (error) {
+            console.error('Erro ao listar eventos:', error);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', listarEventos);
+}
+
 // --------------------- GERAR PAGINA DO EVENTO ESPECIFICO --------------------------
 
 const eventoUnico = document.getElementById("eventoUnico");
+const nomeEvento = localStorage.getItem("eventoSelecionado");
 
 if(eventoUnico){
     async function carregarEvento(e) {
         e.preventDefault();
-    
-        const nomeEvento = localStorage.getItem("eventoSelecionado");
         
         if (!nomeEvento) {
             showMessage("error", "Nenhum evento foi selecionado!");
@@ -430,6 +497,7 @@ if(eventoUnico){
                     response = await apiCall("/event/getevent", "POST", data);
                     
                     if (response) {
+                        // ERRO ESTÁ AQUI ¬
                         try{
                             const data = {
                                 datainicio: `${response.datainicio}`,
@@ -441,10 +509,6 @@ if(eventoUnico){
                                 status: true,
                                 vagas: parseInt(vagasCW.value, 10)
                             };
-
-                            console.log(data);
-                            console.log("Tamanho do banner Base64:", croppedBase64.length);
-
 
                             const createWorkshop = await apiCall("/workshop/create", "POST", data);
                             
@@ -472,6 +536,51 @@ if(eventoUnico){
         }
 
         saveCW.addEventListener("click", criarWorkshop);
+    }
+
+    async function listarWorkshops(e) {
+        e.preventDefault();
+
+        try {
+            const response = await apiCall('/workshop/listworkshops', 'POST', `${nomeEvento}`);
+            const workshops = response.workshops;
+            const container = document.getElementById('adicionarWorkshops');
+
+            if (workshops) {
+                workshops.forEach(workshop => {
+                    const workshopDiv = document.createElement('div');
+                    workshopDiv.classList.add('col-lg-4', 'col-md-8', 'col-sm-10');
+
+                    workshopDiv.innerHTML = `
+                        <div class="single-blog blog-style-one">
+                            <div class="blog-image">
+                                <a href="#" class="workshop-link" data-workshop-nome="${workshop.titulo}">
+                                    <img src="${workshop.banner}" class="imgCursos" alt="Blog"/>
+                                </a>
+                            </div>
+                            <div class="blog-content">
+                                <h5 class="blog-title">
+                                    <a href="#" class="workshop-link" data-workshop-titulo="${workshop.titulo}">${workshop.titulo}</a>
+                                </h5>
+                                <p class="text">
+                                    ${workshop.descricao}
+                                </p>
+                            </div>
+                        </div>
+                    `;
+
+                    workshopDiv.querySelector('.workshop-link').addEventListener('click', () => {
+                        localStorage.setItem('workshopSelecionado', workshop.titulo);
+                        window.location.href = '/pages/workshop.html';
+                    });
+
+                    container.appendChild(eventoDiv);
+                });
+            }
+
+        } catch (error) {
+            console.error('Erro ao listar workshops:', error);
+        }
     }
     
     document.addEventListener("DOMContentLoaded", (e) => {
