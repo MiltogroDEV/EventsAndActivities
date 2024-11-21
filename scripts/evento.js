@@ -432,30 +432,30 @@ if(eventoUnico){
                     if (response) {
                         try{
                             const data = {
-                                "datainicio": `${response.datainicio}`,
-                                "datafim": `${response.datafim}`,
-                                "nomeEvento": `${nomeEvento}`,
-                                "banner": `${croppedBase64}`,
-                                "titulo": `${tituloCW.value}`,
-                                "descricao": `${descCW.value}`,
-                                "status": true,
-                                "vagas": parseInt(vagasCW.value, 10)
+                                datainicio: `${response.datainicio}`,
+                                datafim: `${response.datafim}`,
+                                nomeEvento: `${nomeEvento}`,
+                                banner: `${croppedBase64}`,
+                                titulo: `${tituloCW.value}`,
+                                descricao: `${descCW.value}`,
+                                status: true,
+                                vagas: parseInt(vagasCW.value, 10)
                             };
 
                             console.log(data);
+                            console.log("Tamanho do banner Base64:", croppedBase64.length);
+
 
                             const createWorkshop = await apiCall("/workshop/create", "POST", data);
                             
-                            if (createWorkshop == "Minicurso criado com sucesso!") {
-                                showMessage("success", `${createWorkshop}`);
+                            if (createWorkshop.success) {
+                                showMessage("success", `${createWorkshop.success}`);
                                 
                                 setTimeout(() => {
                                     window.location.href = "/pages/evento.html"
                                 }, 1000);
-                            } else {
-                                showMessage("error", `${createWorkshop}`);
-
-                                console.log(createWorkshop);
+                            } else if (createWorkshop.error) {
+                                showMessage("error", `${createWorkshop.error}`);
                             }
 
 
