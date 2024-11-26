@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.7.7/dist/css/tempus-dominus.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/Styles/main.css">
+    <title>Workshop</title>
+</head>
+<body class="font1">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand fontSize1" href="#">Eventos & Atividades</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav me-auto">
+                    <a class="nav-link fontSize2" href="/index.html">Início</a>
+                    <a class="nav-link active fontSize2" href="/pages/eventos.html">Eventos</a>
+                </div>
+            </div>
+            <div class="d-flex">
+                <a id="btnlc1" href="/pages/login.html" style="display: none;" class="btn btn-outline-primary me-2">Login</a>
+                <a id="btnlc2" href="/pages/cadastro.html" style="display: none;" class="btn btn-primary">Cadastro</a>
+            </div>
+            <div>
+                <!-- <span class="avatar avatarBg"><img id="avatar" alt=""></span> -->
+            </div>
+        </div>
+    </nav>
+
+    <div class="spc3"></div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main">
+        <div id="mainn">
+            <div id="eventContainer" style="cursor: default;">
+                <div class="container mt-5">
+                    <div id="workshop" class="row">
+                        <div class="col-md-12 text-center">
+                            <img id="banner" class="img-fluid mb-4" alt="Banner do Workshop">
+                        </div>
+                        <div class="col-md-12">
+                            <h2 id="titulo" class="text-primary"></h2>
+                        
+                            <h5 id="descricao" class="text-muted" style="font-weight: 600; padding-top: 1vh;"></h5>
+                        
+                        </div>
+                        <div id="divAdmBtn" style="display: none;">
+                            <button id="btnSubWorkshop" type="button" class="btn btn-outline-success">Se inscrever</button>
+                            <button id="btnSubWorkshopTrue" type="button" class="btn btn-success" style="display: none;">Inscrito</button>
+                            <!-- <button id="admBtnDeletarEvento" type="button" class="btn btn-outline-danger">Deletar</button> -->
+                        </div>
+                        <div id="listarInscritosWorkshop" class="row" style="display: none;">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="workshopUnico"></div>
+
+    <div id="messageBox" class="popup alert" style="display: none; padding: 10px; top: 20px; left: 20px;"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.7.7/dist/js/tempus-dominus.min.js"></script>
+    <script type="module" src="/scripts/evento.js"></script>
+    <script src="/scripts/generic.js"></script>
+</body>
+</html>
