@@ -6,8 +6,6 @@ let thumbnailBase64 = '';
 
 const btnCriarEvento1 = document.getElementById("btnCriarEvento1");
 
-
-
 if (btnCriarEvento1) {
     btnCriarEvento1.addEventListener('click', () => {
         window.location.href = "/pages/criarEventos.html";
@@ -46,7 +44,6 @@ if (pageCriarEventos){
                         viewMode: 1
                     });
                 };
-                
             };
             reader.readAsDataURL(file);
         }
@@ -319,10 +316,9 @@ if (eventos) {
                         </div>
                     `;
 
-                    // Adicionar evento de clique para redirecionar
                     eventoDiv.querySelector('.evento-link').addEventListener('click', () => {
-                        localStorage.setItem('eventoSelecionado', evento.nome); // Salvar o nome no localStorage
-                        window.location.href = '/pages/evento.html'; // Redirecionar para a página de detalhes
+                        localStorage.setItem('eventoSelecionado', evento.nome);
+                        window.location.href = '/pages/evento.html';
                     });
 
                     container.appendChild(eventoDiv);
@@ -359,8 +355,6 @@ if(eventoUnico){
     async function carregarEvento(e) {
         e.preventDefault();
 
-        const admBtnCW = document.getElementById("admBtnCW");
-        
         if (!nomeEvento) {
             showMessage("error", "Nenhum evento foi selecionado!");
         } else {
@@ -503,7 +497,6 @@ if(eventoUnico){
                     response = await apiCall("/event/getevent", "POST", data);
                     
                     if (response) {
-                        // ERRO ESTÁ AQUI ¬
                         try{
                             const data = {
                                 datainicio: `${response.datainicio}`,
@@ -547,8 +540,18 @@ if(eventoUnico){
     async function listarWorkshops(e) {
         e.preventDefault();
 
+        let response;
+
         try {
-            const response = await apiCall('/workshop/listworkshops', 'POST', `${nomeEvento}`);
+
+            const data = {
+                nomeEvento: `${nomeEvento}`
+            }
+
+            response = await apiCall('/workshop/listworkshops', 'POST', data);
+
+            console.log(response)
+            
             const workshops = response.workshops;
             const container = document.getElementById('adicionarWorkshops');
 
@@ -635,9 +638,9 @@ if(eventoUnico){
 
             response = await apiCall("/event/listsubscribed", "POST", data);
 
-            console.log("v");
-            console.log(response);
-            console.log("^");
+            // console.log("v");
+            // console.log(response);
+            // console.log("^");
 
             let inscrito = false;
 
@@ -723,6 +726,7 @@ if(eventoUnico){
     document.addEventListener("DOMContentLoaded", (e) => {
         carregarEvento(e);
         listarInscritosEvento(e);
+        listarWorkshops(e);
         // remover comentario quando funcionar a rota /event/listsubscribed no front
         // listarInscritosEvento(e);
     });
@@ -731,5 +735,5 @@ if(eventoUnico){
 const workshop = document.getElementById("workshopUnico");
 
 if(workshop){
-    
+
 }
