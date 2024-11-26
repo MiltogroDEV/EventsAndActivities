@@ -592,7 +592,7 @@ if(eventoUnico){
     async function inscreverEvento(e) {
         e.preventDefault();
         
-        const eventoSelecionado = JSON.parse(localStorage.getItem("eventoSelecionado"));
+        const eventoSelecionado = localStorage.getItem("eventoSelecionado");
 
         let response;
 
@@ -607,7 +607,7 @@ if(eventoUnico){
             
             if(response.success){
                 
-                
+                // implementar alguma coisa após o usuario se inscrever no evento
 
             }
             
@@ -623,46 +623,58 @@ if(eventoUnico){
         const btnSubEvento = document.getElementById("btnSubEvento");
         const btnSubEventoTrue = document.getElementById("btnSubEventoTrue");
 
-        const eventoSelecionado = JSON.parse(localStorage.getItem("eventoSelecionado"));
+        const eventoSelecionado = localStorage.getItem("eventoSelecionado");
+
+        let response;
 
         try {
                     
             const data = {
                 nomeEvento: `${eventoSelecionado}`
             };
-            
+
             response = await apiCall("/event/listsubscribed", "POST", data);
 
-            if(response){
-                const subscribed = response.subscribed;
-                const container = document.getElementById("listarInscritosEvento");
+            console.log("v");
+            console.log(response);
+            console.log("^");
 
-                let inscrito = false;
+            let inscrito = false;
 
-                subscribed.forEach(subscribed => {
-                    if (subscribed.cpf == userSession.cpf) inscrito = true;
-
-                    const inscritoEventoDiv = document.createElement('div');
-
-                    let srcFoto = subscribed.foto === "Default" ? "/img/icons/avatar.png" : `${subscribed.foto}`;
-
-                    inscritoEventoDiv.innerHTML = `
-                        <div style="margin: 5px 0px;">
-                            <span>
-                                <img id="listUserAvatar" src="${srcFoto}" style="width: 2vh; border-radius: 50px;">
-                                <span id="listUserNome">${subscribed.nome}</span> | 
-                                <span id="listUserCpf">${subscribed.cpf}</span>
-                            </span>
-                        </div>
-                    `;
-
-                    if (userSession.role == "administrador" || userSession.role == "professor"){
-                        // checar se o curso/workshop pertence ao usuario que está vendo
-                        listSubDiv.style.display = "block";
-                    }
-
-                    container.appendChild(inscritoEventoDiv);
-                })
+            if (response) {
+            
+                const subscribed = response.subscribed || []; // Caso subscribed seja undefined, inicializa como array vazio
+            
+                if (Array.isArray(subscribed)) {
+                    const container = document.getElementById("listarInscritosEvento");
+            
+            
+                    // Se subscribed estiver vazio, o forEach não será executado
+                    subscribed.forEach(sub => {
+                        if (sub.cpf == userSession.cpf) inscrito = true;
+            
+                        const inscritoEventoDiv = document.createElement('div');
+            
+                        let srcFoto = sub.foto === "Default" ? "/img/icons/avatar.png" : `${sub.foto}`;
+            
+                        inscritoEventoDiv.innerHTML = `
+                            <div style="margin: 5px 0px;">
+                                <span>
+                                    <img id="listUser Avatar" src="${srcFoto}" style="width: 2vh; border-radius: 50px;">
+                                    <span id="listUser Nome">${sub.nome}</span> | 
+                                    <span id="listUser Cpf">${sub.cpf}</span>
+                                </span>
+                            </div>
+                        `;
+            
+                        if (userSession.role == "administrador" || userSession.role == "professor") {
+                            // checar se o curso/workshop pertence ao usuario que está vendo
+                            listSubDiv.style.display = "block";
+                        }
+            
+                        container.appendChild(inscritoEventoDiv);
+                    });
+                }
 
                 if (inscrito) {
                     btnSubEvento.style.display = "none";
@@ -671,7 +683,7 @@ if(eventoUnico){
             }
 
         } catch(error) {
-            console.log(eventoSelecionado);
+            console.log("DEU ERRO");
             console.error(error);
         }
         
@@ -710,7 +722,14 @@ if(eventoUnico){
     
     document.addEventListener("DOMContentLoaded", (e) => {
         carregarEvento(e);
+        listarInscritosEvento(e);
         // remover comentario quando funcionar a rota /event/listsubscribed no front
         // listarInscritosEvento(e);
     });
+}
+
+const workshop = document.getElementById("workshopUnico");
+
+if(workshop){
+    
 }
