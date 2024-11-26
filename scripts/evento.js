@@ -358,6 +358,8 @@ const nomeEvento = localStorage.getItem("eventoSelecionado");
 if(eventoUnico){
     async function carregarEvento(e) {
         e.preventDefault();
+
+        const admBtnCW = document.getElementById("admBtnCW");
         
         if (!nomeEvento) {
             showMessage("error", "Nenhum evento foi selecionado!");
@@ -370,6 +372,8 @@ if(eventoUnico){
             
             try {
                 response = await apiCall("/event/getevent", "POST", data);
+
+                console.log(response)
                 
                 if (response) {
                     
@@ -384,6 +388,8 @@ if(eventoUnico){
                     descricaoEventoEscolhido.textContent = response.descricao;
                     dataHorarioEventoEscolhido.textContent = `${response.datainicio} até ${response.datafim}`;
                     localizacaoEventoEscolhido.textContent = `Inst. ${response.instituicao} | ${response.rua}, ${response.numero} - ${response.bairro} | ${response.cidade} - ${response.estado}`;
+
+                    // if(response.codigoAdm != userSession.cpf) admBtnCW.style.display = "none";
                     
                 } else if (response.error) {
                     showMessage("error", `${response.error}`);
@@ -574,7 +580,7 @@ if(eventoUnico){
                         window.location.href = '/pages/workshop.html';
                     });
 
-                    container.appendChild(eventoDiv);
+                    container.appendChild(workshopDiv);
                 });
             }
 
@@ -583,7 +589,128 @@ if(eventoUnico){
         }
     }
     
+    async function inscreverEvento(e) {
+        e.preventDefault();
+        
+        const eventoSelecionado = JSON.parse(localStorage.getItem("eventoSelecionado"));
+
+        let response;
+
+        try {
+
+            const data = {
+                nomeEvento: `${eventoSelecionado}`,
+                cpfParticipante: `${userSession.cpf}`
+            };
+            
+            response = await apiCall("/event/subscribe", "POST", data);
+            
+            if(response.success){
+                
+                
+
+            }
+            
+        } catch(error) {
+            console.error(error);
+        }
+        
+    }
+
+    async function listarInscritosEvento(e) {
+        e.preventDefault();
+
+        const btnSubEvento = document.getElementById("btnSubEvento");
+        const btnSubEventoTrue = document.getElementById("btnSubEventoTrue");
+
+        const eventoSelecionado = JSON.parse(localStorage.getItem("eventoSelecionado"));
+
+        try {
+                    
+            const data = {
+                nomeEvento: `${eventoSelecionado}`
+            };
+            
+            response = await apiCall("/event/listsubscribed", "POST", data);
+
+            if(response){
+                const subscribed = response.subscribed;
+                const container = document.getElementById("listarInscritosEvento");
+
+                let inscrito = false;
+
+                subscribed.forEach(subscribed => {
+                    if (subscribed.cpf == userSession.cpf) inscrito = true;
+
+                    const inscritoEventoDiv = document.createElement('div');
+
+                    let srcFoto = subscribed.foto === "Default" ? "/img/icons/avatar.png" : `${subscribed.foto}`;
+
+                    inscritoEventoDiv.innerHTML = `
+                        <div style="margin: 5px 0px;">
+                            <span>
+                                <img id="listUserAvatar" src="${srcFoto}" style="width: 2vh; border-radius: 50px;">
+                                <span id="listUserNome">${subscribed.nome}</span> | 
+                                <span id="listUserCpf">${subscribed.cpf}</span>
+                            </span>
+                        </div>
+                    `;
+
+                    if (userSession.role == "administrador" || userSession.role == "professor"){
+                        // checar se o curso/workshop pertence ao usuario que está vendo
+                        listSubDiv.style.display = "block";
+                    }
+
+                    container.appendChild(inscritoEventoDiv);
+                })
+
+                if (inscrito) {
+                    btnSubEvento.style.display = "none";
+                    btnSubEventoTrue.style.display = "block";
+                }
+            }
+
+        } catch(error) {
+            console.log(eventoSelecionado);
+            console.error(error);
+        }
+        
+    }
+
+    async function inscreverWorkshop(e) {
+        e.preventDefault();
+
+        const btnSubWorkshopTrue = document.getElementById("btnSubWorkshopTrue");
+        const eventoSelecionado = JSON.parse(localStorage.getItem("eventoSelecionado"));
+        const workshopSelecionado = JSON.parse(localStorage.getItem("workshopSelecionado"));
+
+        let response;
+
+        try {
+
+            const data = {
+                cpf: `${userSession.cpf}`,
+                nomeWorkshop: `${eventoSelecionado}`,
+                nomeEvento: `${workshopSelecionado}`
+            };
+            
+            response = await apiCall("/workshop/subscribe", "POST", data);
+
+            // fazer para, se o usuario ja estiver inscrito nesse evento/workshop,
+            // mostrar o botao "inscrito" invés de "inscrever-se"
+            
+        } catch(error) {
+            console.error(error);
+        }
+        
+    }
+
+    const btnSubEvento = document.getElementById("btnSubEvento");
+    btnSubEvento.addEventListener('click', inscreverEvento)
+    
     document.addEventListener("DOMContentLoaded", (e) => {
         carregarEvento(e);
+        // remover comentario quando funcionar a rota /event/listsubscribed no front
+        // listarInscritosEvento(e);
     });
 }
