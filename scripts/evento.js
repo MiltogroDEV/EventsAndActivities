@@ -283,8 +283,9 @@ if (pageSacc){
 
 const userSession = JSON.parse(localStorage.getItem("userSession"));
 const eventos = document.getElementById("eventosUnico");
+const indexUnico = document.getElementById('indexUnico');
 
-if (eventos) {
+if (eventos || indexUnico) {
     async function listarEventos(e) {
         e.preventDefault();
 
@@ -292,8 +293,51 @@ if (eventos) {
             const response = await apiCall('/event/listevents', 'GET');
             const eventos = response.events;
             const container = document.getElementById('adicionarEventos');
+            const carrosselImg = document.getElementById('carousel-inner');
+            const carrosselBtn = document.getElementById('carousel-indicators');
+            
+            if (indexUnico){
+                carrosselImg.innerHTML = '';
+                carrosselBtn.innerHTML = '';
 
-            if (eventos) {
+                if (!carrosselImg || !carrosselBtn) {
+                    console.error('Elementos do carrossel não encontrados.');
+                    return;
+                }
+            }
+
+
+            if (indexUnico) {
+                eventos.forEach((evento, index) => {
+                    const imagemCarrossel = document.createElement('div');
+                    imagemCarrossel.classList.add('carousel-item');
+                    
+                    if (index === 0) {
+                        imagemCarrossel.classList.add('active');
+                    }
+
+                    imagemCarrossel.innerHTML = `
+                        <img src="${evento.miniatura}" class="carrossel d-block w-90" alt="${evento.nome}" />
+                    `;
+
+                    carrosselImg.appendChild(imagemCarrossel);
+
+                    const botaoCarrossel = document.createElement('button');
+                    botaoCarrossel.type = 'button';
+                    botaoCarrossel.setAttribute('data-bs-target', '#carouselBasicExample');
+                    botaoCarrossel.setAttribute('data-bs-slide-to', index);
+                    botaoCarrossel.setAttribute('aria-label', `Slide ${index + 1}`);
+                    
+                    if (index === 0) {
+                        botaoCarrossel.classList.add('active');
+                        botaoCarrossel.setAttribute('aria-current', 'true');
+                    }
+
+                    carrosselBtn.appendChild(botaoCarrossel);
+                });
+            }
+            
+            else if (eventos) {
                 eventos.forEach(evento => {
                     const eventoDiv = document.createElement('div');
                     eventoDiv.classList.add('col-lg-4', 'col-md-8', 'col-sm-10');
@@ -321,22 +365,24 @@ if (eventos) {
                         window.location.href = '/pages/evento.html';
                     });
 
+                    
                     container.appendChild(eventoDiv);
                 });
-            }
-
-            if (userSession.role === "administrador") {
-                const addEventDiv = document.createElement('div');
-                addEventDiv.classList.add('col-lg-4', 'col-md-8', 'col-sm-10');
-                addEventDiv.innerHTML = `
-                    <div class="single-blog blog-style-one">
-                        <div class="blog-image" style="cursor: pointer;">
-                            <a href="/pages/criarEventos.html"><img id="btnCriarEvento1" src="/img/eventos/addEvent.png" class="imgCursos" alt="Adicionar Evento"/></a>
+                
+                if (userSession.role === "administrador") {
+                    const addEventDiv = document.createElement('div');
+                    addEventDiv.classList.add('col-lg-4', 'col-md-8', 'col-sm-10');
+                    addEventDiv.innerHTML = `
+                        <div class="single-blog blog-style-one">
+                            <div class="blog-image" style="cursor: pointer;">
+                                <a href="/pages/criarEventos.html"><img id="btnCriarEvento1" src="/img/eventos/addEvent.png" class="imgCursos" alt="Adicionar Evento"/></a>
+                            </div>
                         </div>
-                    </div>
-                `;
-                container.appendChild(addEventDiv);
+                    `;
+                    container.appendChild(addEventDiv);
+                }
             }
+            
 
         } catch (error) {
             console.error('Erro ao listar eventos:', error);
@@ -367,8 +413,6 @@ if(eventoUnico){
             try {
                 response = await apiCall("/event/getevent", "POST", data);
 
-                console.log(response)
-                
                 if (response) {
                     
                     const bannerEventoEscolhido = document.getElementById("banner");
@@ -548,13 +592,14 @@ if(eventoUnico){
                 nomeEvento: `${nomeEvento}`
             }
 
-            response = await apiCall('/workshop/listworkshops', 'POST', data);
+            response = await apiCall("/workshop/listworkshops", "POST", data);
 
-            console.log(response)
+            // console.log("RESPONSE : " + response)
             
             const workshops = response.workshops;
             const container = document.getElementById('adicionarWorkshops');
-
+            
+            // console.log("WORKSHOPS : " + workshops)
             if (workshops) {
                 workshops.forEach(workshop => {
                     const workshopDiv = document.createElement('div');
@@ -605,12 +650,12 @@ if(eventoUnico){
                 nomeEvento: `${eventoSelecionado}`,
                 cpfParticipante: `${userSession.cpf}`
             };
-            
+
             response = await apiCall("/event/subscribe", "POST", data);
             
             if(response.success){
                 
-                // implementar alguma coisa após o usuario se inscrever no evento
+                window.location.href = "/pages/evento.html"
 
             }
             
@@ -635,7 +680,7 @@ if(eventoUnico){
             const data = {
                 nomeEvento: `${eventoSelecionado}`
             };
-
+            
             response = await apiCall("/event/listsubscribed", "POST", data);
 
             // console.log("v");
@@ -644,16 +689,21 @@ if(eventoUnico){
 
             let inscrito = false;
 
+            console.log("RESPONSE /event/listsubscribed : ")
+            console.log(response)
+
             if (response) {
             
-                const subscribed = response.subscribed || []; // Caso subscribed seja undefined, inicializa como array vazio
+                // const subscribed = response.subscribed || []; // Caso subscribed seja undefined, inicializa como array vazio
             
-                if (Array.isArray(subscribed)) {
+                // if (Array.isArray(subscribed)) {
+                if (response) { //temp
                     const container = document.getElementById("listarInscritosEvento");
             
             
                     // Se subscribed estiver vazio, o forEach não será executado
-                    subscribed.forEach(sub => {
+                    // subscribed.forEach(sub => {
+                    response.forEach(sub => { //temp
                         if (sub.cpf == userSession.cpf) inscrito = true;
             
                         const inscritoEventoDiv = document.createElement('div');
@@ -725,10 +775,10 @@ if(eventoUnico){
     
     document.addEventListener("DOMContentLoaded", (e) => {
         carregarEvento(e);
-        listarInscritosEvento(e);
-        listarWorkshops(e);
-        // remover comentario quando funcionar a rota /event/listsubscribed no front
-        // listarInscritosEvento(e);
+        // listarWorkshops(e);
+        if(userSession.role == "administrador" || userSession.role == "professor"){
+            listarInscritosEvento(e);
+        }
     });
 }
 
