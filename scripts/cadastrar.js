@@ -94,18 +94,18 @@ async function cadastrar(e){
         }
 
         const data = {
-            "cpf": `${userCpf}`,
-            "nome": `${inputNome.value}`,
-            "foto": `Default`,
-            "telefone": `${userTelefone}`,
-            "email": `${inputEmail.value}`,
-            "password": `${inputSenha1.value}`,
-            "rua": `${inputRua.value}`,
-            "numero": `${inputNumero.value}`,
-            "bairro": `${inputBairro.value}`,
-            "cidade": `${inputCidade.value}`,
-            "estado": `${inputEstado.value}`,
-            "role": `${role}`
+            cpf: `${userCpf}`,
+            nome: `${inputNome.value}`,
+            foto: `Default`,
+            telefone: `${userTelefone}`,
+            email: `${inputEmail.value}`,
+            password: `${inputSenha1.value}`,
+            rua: `${inputRua.value}`,
+            numero: `${inputNumero.value}`,
+            bairro: `${inputBairro.value}`,
+            cidade: `${inputCidade.value}`,
+            estado: `${inputEstado.value}`,
+            role: `${role}`
         }
 
         console.log(data);
