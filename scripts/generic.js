@@ -15,6 +15,7 @@ const divAdmBtn = document.getElementById("divAdmBtn");
 const btnTutor = document.getElementById("btnTutor");
 const btnInscrever = document.getElementById("btnInscrever");
 const divCriarEvento = document.getElementById("divCriarEvento");
+const btnSubEvento = document.getElementById("btnSubEvento");
 
 const indexUnico = document.getElementById("indexUnico");
 
@@ -30,6 +31,7 @@ if (userSession) {
         if (btnTutor) btnTutor.style.display = "none";
         if (divAdmBtn) divAdmBtn.style.display = "block";
         if (btnInscrever) btnInscrever.style.display = "none";
+        if (btnSubEvento) btnSubEvento.style.display = "none";
         if (divCriarEvento) divCriarEvento.style.display = "block";
     } else if (userSession.role === "professor") {
         if (divMudarDisplay) divMudarDisplay.style.display = "block";
@@ -41,6 +43,7 @@ if (userSession) {
         if (btnlc2) btnlc2.style.display = "none";
         if (btnTutor) btnTutor.style.display = "none";
         if (btnInscrever) btnInscrever.style.display = "none";
+        if (btnSubEvento) btnSubEvento.style.display = "none";
         if (divCriarEvento) divCriarEvento.style.display = "none";
     } else if (userSession.role === "participante") {
         if (divMudarDisplay) divMudarDisplay.style.display = "block";
@@ -63,6 +66,7 @@ if (userSession) {
         if (btnlc2) btnlc2.style.display = "block";
         if (btnTutor) btnTutor.style.display = "none";
         if (btnInscrever) btnInscrever.style.display = "none";
+        if (btnSubEvento) btnSubEvento.style.display = "none";
         if (divCriarEvento) divCriarEvento.style.display = "none";
         if (indexUnico) divMudarDisplay.style.display = "block";
     }
@@ -83,6 +87,7 @@ if (userSession) {
     if (btnlc1) btnlc1.style.display = "block";
     if (btnlc2) btnlc2.style.display = "block";
     if (btnTutor) btnTutor.style.display = "none";
+    if (btnSubEvento) btnSubEvento.style.display = "none";
     if (btnInscrever) btnInscrever.style.display = "none";
     if (divCriarEvento) divCriarEvento.style.display = "none";
 }
