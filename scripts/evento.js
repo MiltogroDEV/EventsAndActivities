@@ -589,13 +589,14 @@ if(eventoUnico){
         try {
 
             const data = {
-                nomeEvento: `${nomeEvento}`
+                nomeEvento: nomeEvento
+                // nomeEvento: "Sigmund Freud"
             }
 
             response = await apiCall("/workshop/listworkshops", "POST", data);
 
-            // console.log("RESPONSE : " + response)
-            
+            console.log("RESPONSE /workshop/listworkshops : " + response)
+
             const workshops = response.workshops;
             const container = document.getElementById('adicionarWorkshops');
             
@@ -689,8 +690,8 @@ if(eventoUnico){
 
             let inscrito = false;
 
-            console.log("RESPONSE /event/listsubscribed : ")
-            console.log(response)
+            // console.log("RESPONSE /event/listsubscribed : ")
+            // console.log(response)
 
             if (response) {
             
@@ -736,7 +737,7 @@ if(eventoUnico){
             }
 
         } catch(error) {
-            console.log("DEU ERRO");
+            // console.log("DEU ERRO");
             console.error(error);
         }
         
@@ -775,9 +776,9 @@ if(eventoUnico){
     
     document.addEventListener("DOMContentLoaded", (e) => {
         carregarEvento(e);
-        // listarWorkshops(e);
+        listarWorkshops(e);
         if(userSession.role == "administrador" || userSession.role == "professor"){
-            listarInscritosEvento(e);
+            // listarInscritosEvento(e);
         }
     });
 }
