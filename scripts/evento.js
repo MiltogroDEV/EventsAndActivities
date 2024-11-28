@@ -783,8 +783,9 @@ if(eventoUnico){
     });
 }
 
-const workshop = document.getElementById("workshopUnico");
+// ----------------------------------------------------
 
+const workshop = document.getElementById("workshopUnico");
 if(workshop){
 
 }
