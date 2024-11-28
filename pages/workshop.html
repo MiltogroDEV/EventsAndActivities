@@ -38,26 +38,41 @@
     <!-- MAIN CONTENT -->
     <div id="main">
         <div id="mainn">
-            <div id="eventContainer" style="cursor: default;">
-                <div class="container mt-5">
-                    <div id="workshop" class="row">
-                        <div class="col-md-12 text-center">
-                            <img id="banner" class="img-fluid mb-4" alt="Banner do Workshop">
-                        </div>
-                        <div class="col-md-12">
-                            <h2 id="titulo" class="text-primary"></h2>
-                        
-                            <h5 id="descricao" class="text-muted" style="font-weight: 600; padding-top: 1vh;"></h5>
-                        
-                        </div>
-                        <div id="divAdmBtn" style="display: none;">
-                            <button id="btnSubWorkshop" type="button" class="btn btn-outline-success">Se inscrever</button>
-                            <button id="btnSubWorkshopTrue" type="button" class="btn btn-success" style="display: none;">Inscrito</button>
-                            <!-- <button id="admBtnDeletarEvento" type="button" class="btn btn-outline-danger">Deletar</button> -->
-                        </div>
-                        <div id="listarInscritosWorkshop" class="row" style="display: none;">
+            <div id="divMudarDisplay">
+                <div id="eventContainer" style="cursor: default;">
+                    <div class="container mt-5">
+                        <div id="workshop" class="row">
+                            <div class="col-md-12 text-center">
+                                <img id="banner" class="img-fluid mb-4" alt="Banner do Workshop">
+                            </div>
+                            <div class="col-md-12">
+                                <h2 id="titulo" class="text-primary"></h2>
                             
+                                <h5 id="descricao" class="text-muted" style="font-weight: 600; padding-top: 1vh;"></h5>
+                            
+                            </div>
+                            <div id="divAdmBtn" style="display: none;">
+                                <button id="btnSubWorkshop" type="button" class="btn btn-outline-success">Se inscrever</button>
+                                <button id="btnSubWorkshopTrue" type="button" class="btn btn-success" style="display: none;">Inscrito</button>
+                                <!-- <button id="admBtnDeletarEvento" type="button" class="btn btn-outline-danger">Deletar</button> -->
+                            </div>
+                            <div id="listarInscritosWorkshop" class="row" style="display: none;">
+                                
+                            </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="noAcess" class="blankslate" style="display: none;">
+                <img class="blankslate-top-img" src="/img/icons/noAcess.png" />
+                <div class="blankslate-body">
+                    <h4>Você não tem acesso a essa página</h4>
+                    <p>
+                        Clique abaixo para redirecionar-mos à página correta
+                    </p>
+                    <div class="blankslate-actions">
+                        <button id="redirecionar" class="btn btn-primary" type="button">Me redirecione</button>
                     </div>
                 </div>
             </div>
