@@ -176,3 +176,21 @@
 #userRole{
     color: var(--CorCinzaCla);
 }
+
+/* -------------------------------------------- */
+
+#adicionarWorkshops{
+    margin: 2vh 0;
+}
+
+#bannerW{
+    width: 100%;
+}
+
+#btnSubWorkshop, #btnSubWorkshopTrue {
+    width: 40%;
+    height: 7vh;
+    margin: 10px;
+    padding: 1vh;
+    font-size: 3vh;
+}
