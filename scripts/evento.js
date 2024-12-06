@@ -306,7 +306,6 @@ if (eventos || indexUnico) {
                 }
             }
 
-
             if (indexUnico) {
                 eventos.forEach((evento, index) => {
                     const imagemCarrossel = document.createElement('div');
@@ -362,6 +361,7 @@ if (eventos || indexUnico) {
 
                     eventoDiv.querySelector('.evento-link').addEventListener('click', () => {
                         localStorage.setItem('eventoSelecionado', evento.nome);
+                        // console.log(localStorage.getItem("eventoSelecionado"));
                         window.location.href = '/pages/evento.html';
                     });
 
@@ -590,12 +590,12 @@ if(eventoUnico){
 
             const data = {
                 nomeEvento: nomeEvento
-                // nomeEvento: "Sigmund Freud"
+                // nomeEvento: "SACC 5"
             }
 
             response = await apiCall("/workshop/listworkshops", "POST", data);
 
-            console.log("RESPONSE /workshop/listworkshops : " + response)
+            // console.log("RESPONSE /workshop/listworkshops : " + response)
 
             const workshops = response.workshops;
             const container = document.getElementById('adicionarWorkshops');
@@ -626,6 +626,7 @@ if(eventoUnico){
 
                     workshopDiv.querySelector('.workshop-link').addEventListener('click', () => {
                         localStorage.setItem('workshopSelecionado', workshop.titulo);
+                        console.log(localStorage.getItem("workshopSelecionado"));
                         window.location.href = '/pages/workshop.html';
                     });
 
@@ -683,87 +684,75 @@ if(eventoUnico){
             };
             
             response = await apiCall("/event/listsubscribed", "POST", data);
-
-            // console.log("v");
-            // console.log(response);
-            // console.log("^");
+            const inscritos = response.subscriptions;
 
             let inscrito = false;
 
-            // console.log("RESPONSE /event/listsubscribed : ")
-            // console.log(response)
-
             if (response) {
-            
-                // const subscribed = response.subscribed || []; // Caso subscribed seja undefined, inicializa como array vazio
-            
-                // if (Array.isArray(subscribed)) {
-                if (response) { //temp
-                    const container = document.getElementById("listarInscritosEvento");
-            
-            
-                    // Se subscribed estiver vazio, o forEach não será executado
-                    // subscribed.forEach(sub => {
-                    response.forEach(sub => { //temp
-                        if (sub.cpf == userSession.cpf) inscrito = true;
-            
-                        const inscritoEventoDiv = document.createElement('div');
-            
-                        let srcFoto = sub.foto === "Default" ? "/img/icons/avatar.png" : `${sub.foto}`;
-            
-                        inscritoEventoDiv.innerHTML = `
-                            <div style="margin: 5px 0px;">
-                                <span>
-                                    <img id="listUser Avatar" src="${srcFoto}" style="width: 2vh; border-radius: 50px;">
-                                    <span id="listUser Nome">${sub.nome}</span> | 
-                                    <span id="listUser Cpf">${sub.cpf}</span>
-                                </span>
-                            </div>
-                        `;
-            
-                        if (userSession.role == "administrador" || userSession.role == "professor") {
-                            // checar se o curso/workshop pertence ao usuario que está vendo
-                            listSubDiv.style.display = "block";
-                        }
-            
-                        container.appendChild(inscritoEventoDiv);
-                    });
-                }
-
-                if (inscrito) {
-                    btnSubEvento.style.display = "none";
-                    btnSubEventoTrue.style.display = "block";
-                }
+        
+                const container = document.getElementById("listarInscritosEvento");
+        
+                inscritos.forEach(sub => {
+                    if (sub.cpf == userSession.cpf) inscrito = true;
+        
+                    const inscritoEventoDiv = document.createElement('div');
+        
+                    let srcFoto = sub.foto === "Default" ? "/img/icons/avatar.png" : `${sub.foto}`;
+        
+                    inscritoEventoDiv.innerHTML = `
+                        <div style="margin: 5px 0px;">
+                            <span>
+                                <img id="listUser Avatar" src="${srcFoto}" style="width: 2vh; border-radius: 50px;">
+                                <span id="listUser Nome">${sub.nome}</span> | 
+                                <span id="listUser Cpf">${sub.cpf}</span>
+                            </span>
+                        </div>
+                    `;
+        
+                    if (userSession.role == "administrador" || userSession.role == "professor") {
+                        // checar se o curso/workshop pertence ao usuario que está vendo
+                        listSubDiv.style.display = "block";
+                    }
+        
+                    container.appendChild(inscritoEventoDiv);
+                });
             }
 
+            if (inscrito) {
+                btnSubEvento.style.display = "none";
+                btnSubEventoTrue.style.display = "block";
+            }
+            
         } catch(error) {
             // console.log("DEU ERRO");
             console.error(error);
         }
-        
     }
 
-    async function inscreverWorkshop(e) {
+    async function checarInscricao(e) {
         e.preventDefault();
-
-        const btnSubWorkshopTrue = document.getElementById("btnSubWorkshopTrue");
-        const eventoSelecionado = JSON.parse(localStorage.getItem("eventoSelecionado"));
-        const workshopSelecionado = JSON.parse(localStorage.getItem("workshopSelecionado"));
-
+        
         let response;
-
+        
         try {
-
+            
             const data = {
-                cpf: `${userSession.cpf}`,
-                nomeWorkshop: `${eventoSelecionado}`,
-                nomeEvento: `${workshopSelecionado}`
+                nomeEvento: `${eventoSelecionado}`
             };
             
-            response = await apiCall("/workshop/subscribe", "POST", data);
+            response = await apiCall("/event/listsubscribed", "POST", data);
+            const inscritos = response.subscriptions;
 
-            // fazer para, se o usuario ja estiver inscrito nesse evento/workshop,
-            // mostrar o botao "inscrito" invés de "inscrever-se"
+            inscritos.forEach(inscrito => {
+                // console.log(`INSCRITO: ${inscrito.nome}`)
+                console.log(`ENTROU NA FUNCAO PARA VERIFICAR INSCRICAO (NO EVENTO)`)
+                if(inscrito.nome == userSession.nome){
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+            
             
         } catch(error) {
             console.error(error);
@@ -778,14 +767,140 @@ if(eventoUnico){
         carregarEvento(e);
         listarWorkshops(e);
         if(userSession.role == "administrador" || userSession.role == "professor"){
-            // listarInscritosEvento(e);
+            listarInscritosEvento(e);
         }
     });
 }
 
 // ----------------------------------------------------
 
+const eventoSelecionado = localStorage.getItem("eventoSelecionado");
+const workshopSelecionado = localStorage.getItem("workshopSelecionado");
+
 const workshop = document.getElementById("workshopUnico");
 if(workshop){
+    async function carregarWorkshop(e) {
+        e.preventDefault();
 
-}
+        if (!nomeEvento) {
+            showMessage("error", "Nenhum evento foi selecionado!");
+        } else {
+            const data = {
+                "nomeEvento": `${nomeEvento}`
+            };
+            
+            let response;
+            
+            try {
+                response = await apiCall("/workshop/listworkshops", "post", data);
+                const workshops = response.workshops;
+                
+                // -------------
+                // const data2 = {
+                //     "nomeEvento": `${nomeEvento}`,
+                //     "nomeWorkshop": `${workshopSelecionado}`
+                // };
+                // const inscritosWorkshop = await apiCall("/workshop/listsubscriptions", "post", data2);
+                // -------------
+                
+                // console.log(response)
+
+                if(workshops){
+                    workshops.forEach(workshop => {
+                        if(workshop.titulo == workshopSelecionado) {
+                            const bannerEventoEscolhido = document.getElementById("bannerW");
+                            const tituloEventoEscolhido = document.getElementById("titulo");
+                            const descricaoEventoEscolhido = document.getElementById("descricao");
+                            
+                            bannerEventoEscolhido.src = workshop.banner;
+                            tituloEventoEscolhido.textContent = workshop.titulo;
+                            descricaoEventoEscolhido.textContent = workshop.descricao;
+                        }
+                    });
+                }
+    
+            } catch(e) {
+                showMessage("error", "Erro interno");
+            }
+        }
+    }
+
+    
+    async function inscreverWorkshop() {
+        
+        let response;
+        
+        try {
+            
+            const data = {
+                cpf: `${userSession.cpf}`,
+                nomeWorkshop: `${workshopSelecionado}`,
+                nomeEvento: `${eventoSelecionado}`
+            };
+            
+            response = await apiCall("/workshop/subscribe", "POST", data);
+            
+            if(response.success){
+                window.location.href = "/pages/workshop.html";
+            }
+            
+        } catch(error) {
+            console.error(error);
+        }
+        
+    }
+
+    async function checarInscricao(e) {
+        e.preventDefault();
+        
+        let response;
+        
+        try {
+            
+            const data = {
+                nomeEvento: `${eventoSelecionado}`,
+                nomeWorkshop: `${workshopSelecionado}`
+            };
+            
+            response = await apiCall("/workshop/listsubscriptions", "POST", data);
+            const inscritos = response.subscriptions;
+
+            console.log(data)
+            console.log(response)
+            console.log(inscritos)
+
+            inscritos.forEach(inscrito => {
+                // console.log(`INSCRITO: ${inscrito.nome}`)
+                console.log(`ENTROU NA FUNCAO PARA VERIFICAR INSCRICAO (NO WORKSHOP)`)
+                if(inscrito.nome == userSession.nome){
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+            
+        } catch(error) {
+            console.error(error);
+        }
+        
+    }
+
+    
+
+    const btnSubWorkshop = document.getElementById("btnSubWorkshop");
+    const btnSubWorkshopTrue = document.getElementById("btnSubWorkshopTrue");
+    btnSubWorkshop.addEventListener('click', inscreverWorkshop);
+    
+    document.addEventListener("DOMContentLoaded", (e) => {
+        carregarWorkshop(e)
+
+        // if(checarInscricao(e)){
+        //     btnSubWorkshopTrue.style.display = "block";
+        //     btnSubWorkshop.style.display = "none";
+        // }
+
+        // if(userSession.role == "administrador" || userSession.role == "professor"){
+            //     listarInscritosWorkshop(e);
+            // }
+        });
+    }
